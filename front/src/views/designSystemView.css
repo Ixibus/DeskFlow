@@ -1,0 +1,40 @@
+.card_onboarding-site-choice_container-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.card_onboarding-site-choice_site-img {
+    height: 100px;
+    width: 100px;
+    background: url(../assets/img/leCapitole.jpg) center/cover;
+}
+
+.card_onboarding-formula-choice_closeItem-container {
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+    background: url(../assets/icone/cancel.png) center/cover;
+}
+
+.card_onboarding-info-confimation_info-container{
+    margin-top: var(--spacing-md);
+    text-align: center;
+}
+
+
+.card_onboarding-site-confirmation_container-display {
+    margin-top: var(--spacing-md);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.card_onboarding-site-confimation_site-img {
+    height: 100px;
+    width: 100px;
+    background: url(../assets/img/leCapitole.jpg) center/cover;
+}
+
+.card_onboarding-formula-confirmation_info-container{
+    margin-top: var(--spacing-md);
+    text-align: center;
+}

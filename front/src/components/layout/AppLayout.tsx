@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { ToastContainer } from "@/components/toast/Toast";
+import { Toast } from "@/components/toast/Toast";
 import "./AppLayout.css";
 // import { MagnifyingGlassWithHat } from "../icons/MagnifyingGlassWithHat";
 
@@ -41,7 +41,7 @@ export function AppLayout(): React.ReactNode {
       <PageContainer>
         <Outlet />
       </PageContainer>
-      <ToastContainer />
+      <Toast />
     </div>
   );
 }

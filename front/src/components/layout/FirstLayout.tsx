@@ -1,6 +1,6 @@
 import { NavLink, Outlet} from "react-router";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { ToastContainer } from "@/components/toast/Toast";
+import { Toast } from "@/components/toast/Toast";
 import "./firstLayout.css";
 
 // import { Logout } from "../icons/Logout";
@@ -22,7 +22,7 @@ export function FirstLayout(): React.ReactNode {
       <PageContainer>
         <Outlet />
       </PageContainer>
-      <ToastContainer />
+      <Toast />
     </div>
   );
 }

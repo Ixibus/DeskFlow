@@ -9,6 +9,9 @@ import Home from "@/pages/Home";
 // import ConnexionAccount from "@/page/ConnexionAccount/ConnexionAccount";
 // import LandingPage from "@/page/LandingPage/LandingPage";
 import { FirstLayout } from "@/components/layout/FirstLayout";
+import { Badge } from "@/components/badge/Badge";
+import ButtonTest from "@/components/composantStore/ButtonStore";
+import DesignSystemView from "@/views/DesignSystemView";
 
 export function AppRouter() {
   return (
@@ -30,7 +33,8 @@ export function AppRouter() {
             {/* <Route path="/design-system" element={<DesignSystemView />} /> */}
           </Route>
         </Route>
-        <Route path="*" element={<Navigate to="/signin" replace />} />
+        <Route element={<Navigate to="/signin" replace />} />
+          <Route path="/design-system" element={<DesignSystemView />} />
       </Routes>
     </BrowserRouter>
   );

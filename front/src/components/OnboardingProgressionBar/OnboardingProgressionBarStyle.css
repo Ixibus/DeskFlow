@@ -1,0 +1,89 @@
+.onboardingProgressionBarWrapper{
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.onboardingProgressionBarStyle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  width: 70%;
+}
+
+/* Conteneur d'une étape (Chiffre + Texte en colonne) */
+.stepContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Cercles des étapes */
+.stepNumberContainer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--color-bg-inactive);
+  background-color: transparent;
+  color: var(--color-bg-inactive);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0; /* Évite les marges par défaut des paragraphes */
+
+  /* Animation du fond et de la couleur */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Texte sous l'étape */
+.stepText {
+  position: absolute;
+  top: 48px; /* Place le texte juste en dessous du cercle de 40px + marge */
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: var(--color-bg-inactive); /* Couleur par défaut (inactif) */
+  transition: color 0.3s ease;
+}
+
+/* État actif : Le cercle et le texte changent de couleur en même temps */
+.stepContainer.is-active .stepNumberContainer {
+  background-color: var(--color-bg-button2);
+  border-color: var(--color-bg-button2);
+  color: var(--color-text-inverse);
+}
+
+.stepContainer.is-active .stepText {
+  color: var(--color-bg-button2); /* Change la couleur du texte en même temps que l'étape active */
+  font-weight: 600;
+}
+
+/* Barre de liaison (Segment) */
+.segment {
+  flex: 1;
+  height: 4px;
+  background-color: var(--color-bg-inactive);
+  position: relative;
+  overflow: hidden;
+  /* margin-bottom: 20px; Aligne le segment avec le centre des cercles si le texte décale */
+}
+
+/* Effet de remplissage de gauche à droite */
+.segment::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-bg-button2);
+  transition: width 0.4s ease-in-out;
+}
+
+.segment.filled::before {
+  width: 100%;
+  
+}

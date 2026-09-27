@@ -1,7 +1,7 @@
 import { useToastStore } from "@/stores/toastStore";
 import "./toast.css";
 
-export function ToastContainer(): React.ReactNode {
+export function Toast(): React.ReactNode {
   const { toasts, dismissToast } = useToastStore();
 
   if (toasts.length === 0) return null;

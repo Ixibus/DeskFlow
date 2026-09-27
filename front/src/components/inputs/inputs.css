@@ -1,0 +1,81 @@
+.input {
+  width: 100%;
+  border: 1px solid #d8d0c4;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: "Caveat", cursive;
+  font-style: italic;
+  font-size: 1rem;
+  color: #1a1714;
+  background-color: #ffffff;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+  color: #9a9082;
+  font-style: italic;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #ff6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}
+
+/* --- Textarea : pour descriptions, plus grand --- */
+.input--textarea {
+  min-height: 150px;
+  padding: 12px 14px;
+  resize: vertical;
+  font-size: 0.95rem;
+}
+
+.input--textarea::placeholder {
+  color: #9a9082;
+  font-style: italic;
+}
+
+.input--textarea:focus {
+  outline: none;
+  border-color: #ff6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}
+
+/* --- Search bar : fin et long avec icône --- */
+.input__search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input__search-icon {
+  position: absolute;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  color: #9a9082;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.input--search {
+  padding-left: 36px;
+  padding-right: 12px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.input--search::placeholder {
+  color: #9a9082;
+  font-style: italic;
+}
+
+.input--search:focus {
+  outline: none;
+  border-color: #ff6600;
+  box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
+}

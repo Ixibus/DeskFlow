@@ -1,0 +1,62 @@
+.custom-range-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.custom-range-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-bg-inactive);
+}
+
+.custom-range-label{
+    color: var(--color-text-primary);
+}
+
+.custom-range-value {
+  color: var(--color-bg-button2);
+}
+
+/* Style de base de la barre (track) */
+.custom-range-input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--color-bg-inactive);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Curseur (thumb) pour Chrome, Safari, Edge */
+.custom-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--color-bg-button2);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.custom-range-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Curseur (thumb) pour Firefox */
+.custom-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--color-bg-button2);
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.custom-range-input::-moz-range-thumb:hover {
+  transform: scale(1.15);
+}

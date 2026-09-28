@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Badge } from "@/components/badge/Badge";
 import { Button } from "@/components/buttons/Buttons";
 import { OnboardingSiteCard } from "@/components/cards/OnboardingSiteCard";
@@ -5,20 +6,55 @@ import { OnboardingFormulaCard } from "@/components/cards/OnboardingFormulaCard"
 import { OnboardingInfoConfirmationCard } from "@/components/cards/OnboardingInfoConfirmationCard";
 import { OnboardingSiteConfirmationCard } from "@/components/cards/OnboardingSiteConfirmationCard";
 import { OnboardingFormulaConfirmationCard } from "@/components/cards/OnboardingFormulaConfirmationCard";
+import { Card } from "@/components/cards/Card";
 import ButtonTest from "@/components/composantStore/ButtonStore";
 import ButtonTest2 from "@/components/composantStore/ButtonStore2";
 import { Input } from "@/components/inputs/Inputs";
 import OnboardingProgressionBar from "@/components/OnboardingProgressionBar/OnboardingProgressionBar";
 import { Link } from "react-router";
+import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
+// import { supabase } from "@/lib/supabaseClient";
 
 import "./designSystemView.css";
+import CustomRangeInput from "@/components/inputs/CustomRangeInput";
 
 const SearchIcon = () => <span>🔍</span>;
 
 export default function DesignSystemView(): React.ReactNode {
+
+  /* Hooks input de type range */
+  const [places, setPlaces] = useState(1);
+
+  /* Hooks et fonction pour input de choix de réservations */
+  const [date, setDate] = useState("2026-09-28");
+  const [startTime, setStartTime] = useState("09:00");
+  const [endTime, setEndTime] = useState("17:00");
+
+  const handleReserver = async () => {
+    // Conversion propre pour Supabase (TIMESTAMPTZ)
+    const p_heure_debut = new Date(`${date}T${startTime}:00`).toISOString();
+    const p_heure_fin = new Date(`${date}T${endTime}:00`).toISOString();
+
+    const { data, error } = await supabase.rpc("reserver_ressource", {
+      p_id_ressource: 1, // ID de la ressource choisie
+      p_heure_debut,
+      p_heure_fin,
+      p_places: 1,
+    });
+
+    if (error) {
+      console.error("Erreur:", error.message);
+    } else {
+      console.log("Succès:", data);
+    }
+  };
+
   return (
     <div style={{ padding: "40px", backgroundColor: "#f5efe7" }}>
-      {/* TITRE */}
+
+
+      {/* ------------------------------- TITRE ------------------------------- */}
+      
       <h2
         style={{
           marginBottom: "20px",
@@ -34,7 +70,9 @@ export default function DesignSystemView(): React.ReactNode {
         <h3> Titre h3</h3>
       </section>
 
-      {/* Boutons  */}
+
+      {/* ------------------------------- BOUTONS ------------------------------- */}
+
       <h2
         style={{
           marginBottom: "20px",
@@ -79,7 +117,9 @@ export default function DesignSystemView(): React.ReactNode {
         </Button>
       </section>
 
-      {/*Éléments progress bar (Onboarding)*/}
+
+      {/* ------------------------------- PROGRESS BAR (Onboarding) ------------------------------- */}
+
       <h2
         style={{
           marginBottom: "20px",
@@ -105,13 +145,13 @@ export default function DesignSystemView(): React.ReactNode {
         Inputs
       </h2>
       <div style={{ marginBottom: "40px" }}>
-        <section className="design-section">
+        <section className="design-section" style={{ marginBottom: "20px" }}>
           <h2>Input - formulaire </h2>
           <Input placeholder="Entrez votre email" />
         </section>
 
         {/* SEARCH BAR */}
-        <section className="design-section">
+        <section className="design-section" style={{ marginBottom: "20px" }}>
           <h2>Input - Recherche </h2>
           <Input
             variant="search"
@@ -121,13 +161,48 @@ export default function DesignSystemView(): React.ReactNode {
         </section>
 
         {/* TEXTAREA */}
-        <section className="design-section">
+        <section className="design-section" style={{ marginBottom: "20px" }}>
           <h2>Input - Description, commentaires</h2>
           <Input variant="textarea" placeholder="Décrivez votre produit..." />
         </section>
+
+        {/* RANGE */}
+        <section className="design-section" style={{ marginBottom: "30px" }}>
+          <h2>Input - Range</h2>
+          <div>
+            <CustomRangeInput
+              label="Nombre de places souhaitées"
+              min={1}
+              max={6}
+              value={places}
+              onChange={(e) => setPlaces(Number(e.target.value))}
+              unit="place(s)"
+            />
+          </div>
+        </section>
+
+        {/* INPUTS CHOIX DES RESERVATIONS */}
+        <section className="design-section" style={{ marginBottom: "20px" }}>
+          <h2>Input - choix réservations</h2>
+          <div>
+            <CustomTimeSlotInput
+              date={date}
+              startTime={startTime}
+              endTime={endTime}
+              onDateChange={setDate}
+              onStartTimeChange={setStartTime}
+              onEndTimeChange={setEndTime}
+            />
+            <button onClick={handleReserver} style={{ marginTop: "16px" }}>
+              Valider la réservation
+            </button>
+          </div>
+        </section>
       </div>
 
-      {/*vignettes*/}
+
+      {/* ------------------------------- VIGNETTES ------------------------------- */}
+
       <h2
         style={{
           marginBottom: "20px",
@@ -228,7 +303,6 @@ export default function DesignSystemView(): React.ReactNode {
             </div>
           </OnboardingSiteConfirmationCard>
         </section>
-      </div>
 
         <section className="design-section" style={{ marginBottom: "20px" }}>
           <h2>Onboarding - choix de la formule</h2>
@@ -253,6 +327,38 @@ export default function DesignSystemView(): React.ReactNode {
             </div>
           </OnboardingFormulaConfirmationCard>
         </section>
+
+        <section className="design-section" style={{ marginBottom: "20px" }}>
+          <h2>Ressources</h2>
+          <Card className="card_site_container-display">
+            <div className="card_site_inner-container-display">
+              <div className="card_site_img-container">
+                <div className="card_site_img" />
+              </div>
+              <div className="card_site_info-container">
+                <div className="card_site_info-inner-container">
+                  <h2 className="card_site_info-container-resource-name typo-h2">
+                    Bureau
+                  </h2>
+                  <p className="card_site_info-container-place-configuration typo-h3">
+                    ressource individuel
+                  </p>
+                  <p className="card_site_info-container-free-places typo-h3">
+                    1 place libre
+                  </p>
+                </div>
+                <Button
+                  variant="canceller"
+                  buttonType="largeMediumType"
+                  buttonPosition="center"
+                >
+                  Modifier
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </section>
+      </div>
 
       {/* exemple de store */}
       <section>

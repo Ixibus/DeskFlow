@@ -38,3 +38,36 @@
     margin-top: var(--spacing-md);
     text-align: center;
 }
+
+.card_site_inner-container-display{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-self: center;
+}
+
+.card_site_img-container{
+    display: flex;
+    justify-content: center;
+}
+
+.card_site_img {
+    margin-top: var(--spacing-sm);
+    height: 100px;
+    width: 100px;
+    background: url(../assets/img/bureau.jpg) center/cover;
+}
+
+.card_site_info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.card_site_info-inner-container{
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}

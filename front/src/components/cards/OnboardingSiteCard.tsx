@@ -1,10 +1,10 @@
 import "./onboardingSiteCard.css";
 
-type onboardingSiteCardProps = {
+type OnboardingSiteCardProps = {
   children: React.ReactNode;
   className?: string;
 };
 
-export function OnboardingSiteCard({ children, className }: onboardingSiteCardProps): React.ReactNode {
-  return <div className={`card ${className ?? ""}`.trim()}>{children}</div>;
+export function OnboardingSiteCard({ children, className }: OnboardingSiteCardProps): React.ReactNode {
+  return <div className={`onboardingSiteCard ${className ?? ""}`.trim()}>{children}</div>;
 }

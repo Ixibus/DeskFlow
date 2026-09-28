@@ -1,0 +1,38 @@
+.timeslot-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.timeslot-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.timeslot-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-bg-inactive);
+}
+
+.timeslot-input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-bg-inactive);
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Effet focus avec ta couleur active */
+.timeslot-input:focus {
+  border-color: var(--color-bg-button2);
+}

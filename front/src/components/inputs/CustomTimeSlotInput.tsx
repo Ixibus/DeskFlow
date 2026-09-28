@@ -1,5 +1,4 @@
-import React from "react";
-import "./CustomTimeSlotInput.css";
+import "./customTimeSlotInput.css";
 
 interface CustomTimeSlotInputProps {
   date: string;          // Format "YYYY-MM-DD"
@@ -22,7 +21,7 @@ export default function CustomTimeSlotInput({
     <div className="timeslot-wrapper">
       {/* Date du coworking */}
       <div className="timeslot-field">
-        <label className="timeslot-label">Date</label>
+        <label className="timeslot-label typo-body">Date</label>
         <input
           type="date"
           value={date}
@@ -33,7 +32,7 @@ export default function CustomTimeSlotInput({
 
       {/* Heure de début */}
       <div className="timeslot-field">
-        <label className="timeslot-label">Arrivée</label>
+        <label className="timeslot-label typo-body">Arrivée</label>
         <input
           type="time"
           value={startTime}
@@ -44,7 +43,7 @@ export default function CustomTimeSlotInput({
 
       {/* Heure de fin */}
       <div className="timeslot-field">
-        <label className="timeslot-label">Départ</label>
+        <label className="timeslot-label typo-body">Départ</label>
         <input
           type="time"
           value={endTime}

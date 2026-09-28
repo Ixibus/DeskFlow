@@ -17,15 +17,15 @@ import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
 
 import "./designSystemView.css";
 import CustomRangeInput from "@/components/inputs/CustomRangeInput";
+import CustomSelectUser from "@/components/inputs/CustomSelectUser";
 
 const SearchIcon = () => <span>🔍</span>;
 
 export default function DesignSystemView(): React.ReactNode {
-
-  /* Hooks input de type range */
+  /* --- Hooks input de type range --- */
   const [places, setPlaces] = useState(1);
 
-  /* Hooks et fonction pour input de choix de réservations */
+  /* --- Hooks et fonctions pour input de choix de réservations --- */
   const [date, setDate] = useState("2026-09-28");
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
@@ -49,12 +49,29 @@ export default function DesignSystemView(): React.ReactNode {
     }
   };
 
+
+  /* --- Hooks et fonctions pour input menu déroulant --- */
+
+  const [selectedUserId, setSelectedUserId] = useState("");
+
+  // Exemple de 10 utilisateurs (qui viendront plus tard de Supabase)
+  const fakeUsers = [
+    { id: 1, prenom: "Alice", nom: "Dupont" },
+    { id: 2, prenom: "Bob", nom: "Martin" },
+    { id: 3, prenom: "Charlie", nom: "Bernard" },
+    { id: 4, prenom: "Diane", nom: "Thomas" },
+    { id: 5, prenom: "Evan", nom: "Petit" },
+    { id: 6, prenom: "Fanny", nom: "Robert" },
+    { id: 7, prenom: "Gabriel", nom: "Richard" },
+    { id: 8, prenom: "Hélène", nom: "Durand" },
+    { id: 9, prenom: "Ivan", nom: "Leroy" },
+    { id: 10, prenom: "Julia", nom: "Moreau" },
+  ];
+
   return (
     <div style={{ padding: "40px", backgroundColor: "#f5efe7" }}>
-
-
       {/* ------------------------------- TITRE ------------------------------- */}
-      
+
       <h2
         style={{
           marginBottom: "20px",
@@ -69,7 +86,6 @@ export default function DesignSystemView(): React.ReactNode {
         <h2> Titre h2</h2>
         <h3> Titre h3</h3>
       </section>
-
 
       {/* ------------------------------- BOUTONS ------------------------------- */}
 
@@ -117,7 +133,6 @@ export default function DesignSystemView(): React.ReactNode {
         </Button>
       </section>
 
-
       {/* ------------------------------- PROGRESS BAR (Onboarding) ------------------------------- */}
 
       <h2
@@ -132,6 +147,8 @@ export default function DesignSystemView(): React.ReactNode {
       <section style={{ marginBottom: "80px" }}>
         <OnboardingProgressionBar />
       </section>
+
+      {/* ------------------------------- INPUTS ------------------------------- */}
 
       {/* INPUTS */}
       {/* INPUT DEFAULT */}
@@ -181,7 +198,7 @@ export default function DesignSystemView(): React.ReactNode {
           </div>
         </section>
 
-        {/* INPUTS CHOIX DES RESERVATIONS */}
+        {/* INPUTS - CHOIX DES RESERVATIONS */}
         <section className="design-section" style={{ marginBottom: "20px" }}>
           <h2>Input - choix réservations</h2>
           <div>
@@ -198,8 +215,20 @@ export default function DesignSystemView(): React.ReactNode {
             </button>
           </div>
         </section>
-      </div>
 
+        {/* INPUTS - MENU DEROULANT  */}
+        <section className="design-section" style={{ marginBottom: "20px" }}>
+          <h2>Input - menu déroulant </h2>
+          <div style={{ padding: "20px", maxWidth: "400px" }}>
+            <CustomSelectUser
+              label="Membre concerné"
+              users={fakeUsers}
+              selectedValue={selectedUserId}
+              onChange={(val) => setSelectedUserId(val)}
+            />
+          </div>
+        </section>
+      </div>
 
       {/* ------------------------------- VIGNETTES ------------------------------- */}
 

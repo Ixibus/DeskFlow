@@ -1,0 +1,21 @@
+.mailConfirmation_container{
+    margin-top: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    text-align: center;
+    align-items: center;
+    color: var(--color-text-secondary);
+}
+
+.mailConfirmation_title{
+    margin: var(--spacing-md);
+}
+
+.mailConfirmation_email-address{
+    color: var(--color-text-primary);
+    padding: var(--spacing-xs);
+    background: var(--color-bg-card);
+    border-radius: var(--radius-sm);
+    letter-spacing: var(--spacing-xs);
+}

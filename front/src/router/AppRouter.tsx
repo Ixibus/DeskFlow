@@ -16,6 +16,7 @@ import AccountCreationPage from "@/pages/AccountCreationPage/AccountCreationPage
 import SiteChoiceOnboardingPage from "@/pages/SiteChoiceOnboardingPage/SiteChoiceOnboardingPage";
 import FormulaChoiceOnboardingPage from "@/pages/FormulaChoiceOnboardingPage/FormulaChoiceOnboardingPage";
 import InfosConfirmationPageOnboardingPage from "@/pages/InfosConfirmationPageOnboardingPage/InfosConfirmationPageOnboardingPage";
+import MailConfirmationOnboardingPage from "@/pages/MailConfirmationOnboardingPage/MailConfirmationOnboardingPage";
 
 export function AppRouter() {
   return (
@@ -28,6 +29,7 @@ export function AppRouter() {
             <Route path="/siteChoiceOnboarding" element={<SiteChoiceOnboardingPage />} />
             <Route path="/formulaChoiceOnboarding" element={<FormulaChoiceOnboardingPage />} />
             <Route path="/infosConfirmationPageOnboarding" element={<InfosConfirmationPageOnboardingPage />} />
+            <Route path="/mailConfirmationOnboarding" element={<MailConfirmationOnboardingPage />} />
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>

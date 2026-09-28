@@ -1,0 +1,30 @@
+.create-account_container {
+    margin: auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-account_formContainer {
+    box-shadow: var(--shadow-card-offset);
+}
+
+.create-account_accountCreationContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-border-card-primary);
+    padding: var(--spacing-xl);
+}
+
+.create-account_CrmDetectiveTitle{
+    margin: 30px auto;
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.create-account_passwordConfirmationContainer{
+    margin-bottom: var(--spacing-lg);
+}

@@ -1,0 +1,16 @@
+.infos-confirmation-onboarding_container{
+    margin: auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+.infos-confirmation-onboarding_infoss-container{
+    margin-bottom: var(--spacing-md);
+}
+
+.infos-confirmation-onboarding_title-container{
+    text-align: center;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}

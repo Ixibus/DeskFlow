@@ -2,6 +2,7 @@ import { NavLink, Outlet} from "react-router";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Toast } from "@/components/toast/Toast";
 import "./firstLayout.css";
+import OnboardingProgressionBar from "../OnboardingProgressionBar/OnboardingProgressionBar";
 
 // import { Logout } from "../icons/Logout";
 
@@ -19,6 +20,7 @@ export function FirstLayout(): React.ReactNode {
             </span>
           </NavLink>
       </nav>
+      <OnboardingProgressionBar/>
       <PageContainer>
         <Outlet />
       </PageContainer>

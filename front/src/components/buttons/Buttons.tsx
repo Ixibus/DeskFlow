@@ -3,7 +3,7 @@ import "./buttons.css";
 type ButtonProps = {
   id?: string;
   variant?: "primary" | "secondary" | "ghost" | "icon" | "dark" | "tertiary" | "validator" | "canceller";
-  buttonType?: "defaultType" | "largeType" | "largeMediumType" |"largeTallType";
+  buttonType?: "defaultType" | "largeType" | "largeMediumType" | "largeTallType" | "largeValidatorType";
   buttonPosition?: "left" | "center" | "right";
   children: React.ReactNode;
   onClick?: () => void;

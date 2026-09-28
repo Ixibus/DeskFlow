@@ -155,6 +155,11 @@
   border-radius: 0px;
 }
 
+.largeValidatorType {
+  width : 200px;
+  height: 40px;
+}
+
 
 /* --- Position du bouton dans un container ---*/
 

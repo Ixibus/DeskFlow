@@ -7,21 +7,27 @@ import Home from "@/pages/Home";
 // import EditProduct from "@/page/CreateProduct/EditProduct";
 // import CreateAccount from "@/page/CreateAccount/CreateAccount";
 // import ConnexionAccount from "@/page/ConnexionAccount/ConnexionAccount";
-// import LandingPage from "@/page/LandingPage/LandingPage";
+import LandingPage from "@/pages/LandingPage/LandingPage";
 import { FirstLayout } from "@/components/layout/FirstLayout";
 import { Badge } from "@/components/badge/Badge";
 import ButtonTest from "@/components/composantStore/ButtonStore";
 import DesignSystemView from "@/views/DesignSystemView";
+import AccountCreationPage from "@/pages/AccountCreationPage/AccountCreationPage";
+import SiteChoiceOnboardingPage from "@/pages/SiteChoiceOnboardingPage/SiteChoiceOnboardingPage";
+import FormulaChoiceOnboardingPage from "@/pages/FormulaChoiceOnboardingPage/FormulaChoiceOnboardingPage";
+import InfosConfirmationPageOnboardingPage from "@/pages/InfosConfirmationPageOnboardingPage/InfosConfirmationPageOnboardingPage";
 
 export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
         <Route>
-          {/* <Route path="/" element={<LandingPage />} /> */}
+          <Route path="/" element={<LandingPage />} />
           <Route element={<FirstLayout />}>
-            {/* <Route path="/signup" element={<CreateAccount />} /> */}
-            {/* <Route path="/signin" element={<ConnexionAccount />} /> */}
+            <Route path="/signup" element={<AccountCreationPage />} />
+            <Route path="/siteChoiceOnboarding" element={<SiteChoiceOnboardingPage />} />
+            <Route path="/formulaChoiceOnboarding" element={<FormulaChoiceOnboardingPage />} />
+            <Route path="/infosConfirmationPageOnboarding" element={<InfosConfirmationPageOnboardingPage />} />
           </Route>
         </Route>
         <Route element={<ProtectedRoute />}>

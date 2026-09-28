@@ -1,0 +1,15 @@
+.site-choice-onboarding_container{
+    margin: auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.site-choice-onboarding_sites-container{
+    margin-bottom: var(--spacing-md);
+}
+
+.site-choice-onboarding_title{
+    margin: var(--spacing-md)
+}

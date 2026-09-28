@@ -1,0 +1,15 @@
+.formula-choice-onboarding_container{
+    margin: auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+.formula-choice-onboarding_formulas-container{
+    margin-bottom: var(--spacing-md);
+}
+
+.formula-choice-onboarding_title-container{
+    text-align: center;
+    margin: var(--spacing-md);
+}

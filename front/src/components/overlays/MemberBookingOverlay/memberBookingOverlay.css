@@ -1,0 +1,19 @@
+.member-booking-overlay_container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.member-booking-overlay_title{
+    text-align: center;
+}
+
+h3{
+    margin-top: var(--spacing-md);
+}
+
+.member-booking-overlay_boutons_container{
+    margin-top: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-sm);
+}

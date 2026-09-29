@@ -1,0 +1,74 @@
+.home_info_container{
+    margin-bottom: var(--spacing-2xl);
+    height: 100vh;
+}
+
+.home_site-info_container{
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.home_site-info_left-container, .home_site-places-infos_container{
+    border: 1px solid black;
+    background: var(--color-bg-card);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.home_site-info-img{
+    height: 40px;
+    width: 40px;
+    background:url(../assets/img/leCapitole.jpg) center / cover;
+}
+
+.home_ressources-title{
+    margin-top: var(--spacing-2xl);
+    text-align: center;
+}
+
+.home_ressource-type_title {
+    margin: var(--spacing-sm);
+}
+
+.home_ressource_rooms_title{
+    margin-top: var(--spacing-lg);
+}
+
+.card_site_container-display{
+margin-bottom: var(--spacing-sm);
+}
+
+
+
+.card_site_le-capitol_img {
+    margin-top: var(--spacing-md);
+    height: 100px;
+    width: 100px;
+    background:url(../assets/img/leCapitole.jpg) center / cover;
+}
+
+.card_site_le-sathonay_img {
+    margin-top: var(--spacing-md);
+    height: 100px;
+    width: 100px;
+    background:url(../assets/img/leSathonay.jpg) center / cover;
+}
+.card_site_le-royale_img {
+    margin-top: var(--spacing-md);
+    height: 100px;
+    width: 100px;
+    background:url(../assets/img/leRoyal.jpg) center / cover;
+}
+
+.admin-home_total-ressource-type_title{
+    text-align: center;
+}
+
+.admin-home_total-ressource-infos_container{
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg)
+}

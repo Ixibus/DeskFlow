@@ -1,0 +1,87 @@
+.navBar_container {
+    border-bottom: 1px solid black;
+    display: flex;
+}
+
+.navBar_greeting-container {
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    width: max-content;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    transition: var(--transition-fast);
+}
+
+.navBar_greeting-container:hover {
+    background: var(--color-bg-button2);
+    color: var(--color-text-inverse);
+}
+
+.navBar_greeting-text {
+    width: max-content;
+    line-height: 1;
+}
+
+.navBar_greeting-img {
+    margin: auto;
+    height: 25px;
+    width: 30px;
+    background: url(../../assets/icone/user.png) center / cover;
+}
+
+
+
+.navBar_navigation-container {
+    /* padding: var(--spacing-xs); */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.navBar_navigation-element {
+    border-left: 1px solid black;
+    cursor: pointer;
+    padding: 0 var(--spacing-sm);
+    background: var(--color-bg-input);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: var(--transition-fast);
+}
+
+.navBar_navigation_reservation-container{
+    border-right: 1px solid black;
+}
+
+.navBar_navigation-element:hover {
+    background: var(--color-bg-button2);
+    color: var(--color-text-inverse);
+}
+
+.navBar_logoutWrapper {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+
+}
+
+.navBar_logoutContainer{
+    cursor: pointer;
+    display: flex;
+    transition: var(--transition-fast);
+}
+
+.navBar_logoutWrapper:hover{
+    background: var(--color-bg-button2);
+    color: var(--color-text-inverse);
+
+}
+
+.navBar_logout-img {
+
+    margin-left: var(--spacing-sm);
+    height: 20px;
+    width: 20px;
+    background: url(../../assets/icone/logout.png) center / cover;
+}

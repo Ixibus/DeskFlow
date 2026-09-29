@@ -50,11 +50,18 @@
     justify-content: center;
 }
 
-.card_site_img {
+.card_site_desk_img {
     margin-top: var(--spacing-sm);
     height: 100px;
     width: 100px;
     background: url(../assets/img/bureau.jpg) center/cover;
+}
+
+.card_site_room_img {
+    margin-top: var(--spacing-sm);
+    height: 100px;
+    width: 100px;
+    background: url(../assets/img/salle.jpg) center/cover;
 }
 
 .card_site_info-container{

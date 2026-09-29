@@ -1,0 +1,39 @@
+.connexion-account_container {
+    margin: auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+
+.connexion-account_mainTitleContainer {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.connexion-account_accountCreationContainer {
+    box-shadow: var(--shadow-card-offset);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-border-card-primary);
+    padding: var(--spacing-xl);
+}
+
+.connexion-account_title{
+    text-align: center;
+}
+
+.connexion-account_password-forgotten_link{
+    cursor: pointer;
+    text-align: center;
+    text-decoration: underline;
+    transition: var(--transition-fast);
+}
+
+.connexion-account_password-forgotten_link:hover{
+    color: var(--color-primary);
+}

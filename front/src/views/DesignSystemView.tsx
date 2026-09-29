@@ -10,7 +10,7 @@ import { Card } from "@/components/cards/Card";
 import ButtonTest from "@/components/composantStore/ButtonStore";
 import ButtonTest2 from "@/components/composantStore/ButtonStore2";
 import { Input } from "@/components/inputs/Inputs";
-import OnboardingProgressionBar from "@/components/OnboardingProgressionBar/OnboardingProgressionBar";
+import OnboardingProgressionBar from "@/components/onboardingProgressionBar/OnboardingProgressionBar";
 import { Link } from "react-router";
 import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
 // import { supabase } from "@/lib/supabaseClient";
@@ -362,7 +362,7 @@ export default function DesignSystemView(): React.ReactNode {
           <Card className="card_site_container-display">
             <div className="card_site_inner-container-display">
               <div className="card_site_img-container">
-                <div className="card_site_img" />
+                <div className="card_site_desk_img" />
               </div>
               <div className="card_site_info-container">
                 <div className="card_site_info-inner-container">

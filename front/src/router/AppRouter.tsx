@@ -17,6 +17,10 @@ import SiteChoiceOnboardingPage from "@/pages/SiteChoiceOnboardingPage/SiteChoic
 import FormulaChoiceOnboardingPage from "@/pages/FormulaChoiceOnboardingPage/FormulaChoiceOnboardingPage";
 import InfosConfirmationPageOnboardingPage from "@/pages/InfosConfirmationPageOnboardingPage/InfosConfirmationPageOnboardingPage";
 import MailConfirmationOnboardingPage from "@/pages/MailConfirmationOnboardingPage/MailConfirmationOnboardingPage";
+import ConnexionPage from "@/pages/ConnexionPage/ConnexionPage";
+import { ConnexionLayout } from "@/components/layout/ConnexionLayout";
+import HomePage from "@/pages/Home";
+import MemberBookingOverlay from "@/components/overlays/MemberBookingOverlay/MemberBookingOverlay";
 
 export function AppRouter() {
   return (
@@ -32,15 +36,19 @@ export function AppRouter() {
             <Route path="/mailConfirmationOnboarding" element={<MailConfirmationOnboardingPage />} />
           </Route>
         </Route>
-        <Route element={<ProtectedRoute />}>
+          <Route element={<ConnexionLayout />}>
+            <Route path="/signin" element={<ConnexionPage />} />
+        </Route>
+        {/* <Route element={<ProtectedRoute />}> */}
           <Route element={<AppLayout />}>
-            <Route path="/home" element={<Home />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/memberBooking" element={<MemberBookingOverlay />} />
             {/* <Route path="/products" element={<Products />} /> */}
             {/* <Route path="/products/create" element={<CreateProduct />} /> */}
             {/* <Route path="/products/:id/edit" element={<EditProduct />} /> */}
             {/* <Route path="/design-system" element={<DesignSystemView />} /> */}
           </Route>
-        </Route>
+        {/* </Route> */}
         <Route element={<Navigate to="/signin" replace />} />
           <Route path="/design-system" element={<DesignSystemView />} />
       </Routes>

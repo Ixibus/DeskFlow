@@ -1,12 +1,11 @@
 import { NavLink, Outlet} from "react-router";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Toast } from "@/components/toast/Toast";
-import "./firstLayout.css";
-import OnboardingProgressionBar from "../onboardingProgressionBar/OnboardingProgressionBar";
+import "./connexionLayout.css";
 
 // import { Logout } from "../icons/Logout";
 
-export function FirstLayout(): React.ReactNode {
+export function ConnexionLayout(): React.ReactNode {
 
   return (
     <div className="firstLayout-shell">
@@ -20,7 +19,6 @@ export function FirstLayout(): React.ReactNode {
             </span>
           </NavLink>
       </nav>
-      <OnboardingProgressionBar/>
       <PageContainer>
         <Outlet />
       </PageContainer>

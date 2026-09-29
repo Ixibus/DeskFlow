@@ -1,24 +1,28 @@
 import "./customSelectUser.css";
 
-interface UserOption {
+// Interface minimale requise pour n'importe quel item
+interface BaseOption {
   id: string | number;
-  prenom: string;
-  nom: string;
+  [key: string]: any; // Permet d'accepter d'autres propriétés (prenom, nom, name, etc.)
 }
 
-interface CustomSelectUserProps {
+interface CustomSelectUserProps<T extends BaseOption> {
   label?: string;
-  users: UserOption[];
+  items: T[];
   selectedValue: string | number;
   onChange: (val: string) => void;
+  placeholder?: string;
+  renderOption: (item: T) => string; // Fonction pour formater l'affichage de l'option
 }
 
-export default function CustomSelectUser({
-  label = "Sélectionner un utilisateur",
-  users,
+export default function CustomSelectUser<T extends BaseOption>({
+  label = "Sélectionner une option",
+  items,
   selectedValue,
   onChange,
-}: CustomSelectUserProps) {
+  placeholder = "-- Choisir une option --",
+  renderOption,
+}: CustomSelectUserProps<T>) {
   return (
     <div className="custom-select-wrapper">
       {label && <label className="custom-select-label typo-body">{label}</label>}
@@ -29,11 +33,11 @@ export default function CustomSelectUser({
           className="custom-select"
         >
           <option value="" disabled>
-            -- Choisir un profil --
+            {placeholder}
           </option>
-          {users.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.prenom} {user.nom}
+          {items.map((item) => (
+            <option key={item.id} value={item.id}>
+              {renderOption(item)}
             </option>
           ))}
         </select>

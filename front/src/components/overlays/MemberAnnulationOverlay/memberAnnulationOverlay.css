@@ -1,0 +1,50 @@
+.member-annulation-booking-overlay_container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.member-annulation-booking-overlay_title {
+    text-align: center;
+}
+
+h3 {
+    margin-top: var(--spacing-md);
+}
+
+.member-annulation-booking-overlay_boutons_container {
+    margin-top: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.card_site_info-inner-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.member-annulation-booking-overlay_info-container {
+    text-align: center;
+}
+
+.member-annulation-booking-overlay_adviser-container,
+.member-annulation-booking-overlay_title-adviser {
+    text-align: center;
+    color: var(--color-error);
+}
+
+.member-annulation-booking-overlay_img {
+    height: 50px;
+    width: 50px;
+    background: url(../../../assets/img/leCapitole.jpg) center / cover;
+}
+
+.member-annulation-booking-overlay_site-info-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+}

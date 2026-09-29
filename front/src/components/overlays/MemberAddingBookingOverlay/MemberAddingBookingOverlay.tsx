@@ -1,12 +1,12 @@
 import { Button } from "@/components/buttons/Buttons";
-import "./memberBookingOverlay.css";
+import "./memberAddingBookingOverlay.css";
 import { Card } from "@/components/cards/Card";
 import { OverlayBackground } from "../OverlayBackground/OverlayBackground";
 import CustomRangeInput from "@/components/inputs/CustomRangeInput";
 import { useState } from "react";
 import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
 
-export default function MemberBookingOverlay(): React.ReactNode {
+export default function MemberAddingBookingOverlay(): React.ReactNode {
   const [places, setPlaces] = useState(1);
 
   const [date, setDate] = useState("2026-09-28");
@@ -33,8 +33,8 @@ export default function MemberBookingOverlay(): React.ReactNode {
   };
 
   return (
-    <OverlayBackground className="member-booking-overlay_container">
-      <h2 className="member-booking-overlay_title typo-h2">Réserver des places</h2>
+    <OverlayBackground className="member-adding-booking-overlay_container">
+      <h2 className="member-adding-booking-overlay_title typo-h2">Réserver des places</h2>
       <Card className="card_site_container-display">
         <div className="card_site_inner-container-display">
           <div className="card_site_img-container">
@@ -56,7 +56,7 @@ export default function MemberBookingOverlay(): React.ReactNode {
         </div>
       </Card>
 
-        <h3 className="member-booking-overlay_places-choice_title">choisissez le nombre de place</h3>
+        <h3 className="member-adding-booking-overlay_places-choice_title">choisissez le nombre de place</h3>
       <OverlayBackground className="card_site_container-display">
 
       <CustomRangeInput
@@ -69,7 +69,7 @@ export default function MemberBookingOverlay(): React.ReactNode {
         />
         </OverlayBackground>
 
-        <h3 className="member-booking-overlay_slot-choice_title">choisissez le créneau</h3>
+        <h3 className="member-adding-booking-overlay_slot-choice_title">choisissez le créneau</h3>
       <OverlayBackground className="card_site_container-display">
       <CustomTimeSlotInput
         date={date}
@@ -81,7 +81,7 @@ export default function MemberBookingOverlay(): React.ReactNode {
         />
         </OverlayBackground>
 
-      <div className="member-booking-overlay_boutons_container">
+      <div className="member-adding-booking-overlay_boutons_container">
         <Button
           children="valider"
           variant="validator"

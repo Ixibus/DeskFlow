@@ -20,7 +20,12 @@ import MailConfirmationOnboardingPage from "@/pages/MailConfirmationOnboardingPa
 import ConnexionPage from "@/pages/ConnexionPage/ConnexionPage";
 import { ConnexionLayout } from "@/components/layout/ConnexionLayout";
 import HomePage from "@/pages/Home";
-import MemberBookingOverlay from "@/components/overlays/MemberBookingOverlay/MemberBookingOverlay";
+import MemberBookingOverlay from "@/components/overlays/MemberAddingBookingOverlay/MemberAddingBookingOverlay";
+import AdminBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
+import MemberAddingBookingOverlay from "@/components/overlays/MemberAddingBookingOverlay/MemberAddingBookingOverlay";
+import AdminAddingBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
+import ReservationPage from "@/pages/ReservationPage/ReservationPage";
+import MemberAnnulationOverlay from "@/components/overlays/MemberAnnulationOverlay/MemberAnnulationOverlay";
 
 export function AppRouter() {
   return (
@@ -42,11 +47,10 @@ export function AppRouter() {
         {/* <Route element={<ProtectedRoute />}> */}
           <Route element={<AppLayout />}>
             <Route path="/home" element={<HomePage />} />
-            <Route path="/memberBooking" element={<MemberBookingOverlay />} />
-            {/* <Route path="/products" element={<Products />} /> */}
-            {/* <Route path="/products/create" element={<CreateProduct />} /> */}
-            {/* <Route path="/products/:id/edit" element={<EditProduct />} /> */}
-            {/* <Route path="/design-system" element={<DesignSystemView />} /> */}
+            <Route path="/memberBooking" element={<MemberAddingBookingOverlay />} />
+            <Route path="/adminBooking" element={<AdminAddingBookingOverlay />} />
+            <Route path="/reservation" element={<ReservationPage />} />
+            <Route path="/memberAnnulation" element={<MemberAnnulationOverlay />} />
           </Route>
         {/* </Route> */}
         <Route element={<Navigate to="/signin" replace />} />

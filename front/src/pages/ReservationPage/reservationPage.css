@@ -1,0 +1,50 @@
+.member-booking-overlay_container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.member-booking-overlay_title{
+    text-align: center;
+}
+
+h3{
+    margin-top: var(--spacing-md);
+}
+
+.member-booking-overlay_boutons_container{
+    margin-top: var(--spacing-md);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.reservation-page_card_site_inner-container-display{
+    display: flex;
+    flex-direction: column;
+}
+
+.reservation-page_card_site_info-inner-container{
+    width: 100%;
+}
+
+.reservation-page_card_site_info-container-resource-name{
+    margin-top: var(--spacing-sm);
+    text-align: center;
+}
+
+.reservation-page_card_site_info-container-free-places{
+    text-align: center;
+}
+
+.reservation-page_info-reservation-container{
+    margin-top: var(--spacing-lg);
+}
+
+.reservation-page_reservation-slot-container{
+    margin-top: var(--spacing-md);
+    display: flex;
+}
+
+.admin-adding-booking-overlay_member-selection_title{
+    text-align: center;
+}

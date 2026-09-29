@@ -1,11 +1,13 @@
 .badge {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
   align-items: center;
+  justify-content: center;
   padding: 2px 10px;
   border: 1px solid var(--color-border-card-primary);
   border-radius: var(--radius-full);
   font-family: var(--caption-font-family);
-  font-size: var(--caption-font-size);
+  font-size: var(--body-font-size);
   color: var(--color-text-secondary);
-  background-color: var(--color-bg-card);
+  background-color: var(--color-bg-button1);
 }

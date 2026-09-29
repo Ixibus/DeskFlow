@@ -12,7 +12,7 @@ export default function HomePage(): React.ReactNode {
           <div className="home_site-info_left-container">
             <div className="home_site-info-img" />
             <div className="home_site-name_container">
-              <p className="home_site-name_text typo-body">Le Capitol</p>
+              <p className="home_site-name_text typo-body">Le Capitole</p>
             </div>
           </div>
           <div className="home_site-places-infos_container">

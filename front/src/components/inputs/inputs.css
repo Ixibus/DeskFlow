@@ -79,3 +79,13 @@
   border-color: #ff6600;
   box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
 }
+
+/* --- État d'erreur --- */
+.input--error {
+  border-color: var(--color-error);
+}
+
+.input--error:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.15);
+}

@@ -1,4 +1,5 @@
 import "./inputs.css";
+
 type InputVariant = "default" | "textarea" | "search" | "secret";
 
 type InputProps = {
@@ -11,6 +12,7 @@ type InputProps = {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   variant?: InputVariant;
   icon?: React.ReactNode;
+  error?: boolean;
 };
 
 export function Input({
@@ -21,12 +23,15 @@ export function Input({
   onKeyDown,
   variant = "default",
   icon,
+  error = false,
 }: InputProps): React.ReactNode {
+  const errorClass = error ? " input--error" : "";
+
   if (variant === "textarea") {
     return (
       <textarea
         name={name}
-        className="input input--textarea"
+        className={`input input--textarea${errorClass}`}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
@@ -40,7 +45,7 @@ export function Input({
         <input
           name={name}
           type="text"
-          className="input input--search"
+          className={`input input--search${errorClass}`}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
@@ -54,19 +59,19 @@ export function Input({
       <input
         name={name}
         type="password"
-        className="input"
+        className={`input${errorClass}`}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        />
-      );
-    }
-    return (
-      <input
+      />
+    );
+  }
+  return (
+    <input
       name={name}
       type="text"
-      className="input"
+      className={`input${errorClass}`}
       placeholder={placeholder}
       value={value}
       onChange={onChange}

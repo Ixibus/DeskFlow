@@ -1,8 +1,6 @@
 import { Input } from "@/components/inputs/Inputs";
 import { Button } from "@/components/buttons/Buttons";
 import { useEffect, useState } from "react";
-import { UserRepository } from "@/data/repositories/UserRepository";
-import { createHttpClient } from "@/data/api/createHttpClient";
 import { useNavigate } from "react-router";
 
 import { useToastStore } from "@/stores/toastStore";
@@ -11,7 +9,6 @@ import { useAuthStore } from "@/stores/loginAuthed";
 import "./connexionPage.css";
 import { Toast } from "@/components/toast/Toast";
 
-const userRepository = new UserRepository(createHttpClient());
 
 export default function ConnexionPage(): React.ReactNode {
   const [password, setPassword] = useState<any>("");
@@ -23,13 +20,10 @@ export default function ConnexionPage(): React.ReactNode {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    (async () => await userRepository.logout())();
-  }, []);
+
 
   async function handlerSubmit(login: string, password: string) {
     try {
-      const res = await userRepository.login({ login, password });
       console.log("le log: " + res);
       setLoginStore(login);
       showToast("connexion réussie", "success");

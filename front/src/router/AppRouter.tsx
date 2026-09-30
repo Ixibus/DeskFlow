@@ -10,7 +10,6 @@ import Home from "@/pages/Home";
 import LandingPage from "@/pages/LandingPage/LandingPage";
 import { FirstLayout } from "@/components/layout/FirstLayout";
 import { Badge } from "@/components/badge/Badge";
-import ButtonTest from "@/components/composantStore/ButtonStore";
 import DesignSystemView from "@/views/DesignSystemView";
 import AccountCreationPage from "@/pages/AccountCreationPage/AccountCreationPage";
 import SiteChoiceOnboardingPage from "@/pages/SiteChoiceOnboardingPage/SiteChoiceOnboardingPage";

@@ -1,8 +1,8 @@
 import "./OnboardingProgressionBarStyle.css";
-import { useStepStore } from "@/stores/useStepStore";
+import { useOnboardingStore } from "@/stores/useOnboardingStore";
 
 export default function OnboardingProgressionBar() {
-  const activeStep = useStepStore((state) => state.activeStep);
+  const activeStep = useOnboardingStore((state) => state.activeStep);
 
   return (
     <div 

@@ -1,21 +1,15 @@
 import { Button } from "@/components/buttons/Buttons";
-import { useEffect } from "react";
-import { UserRepository } from "@/data/repositories/UserRepository";
-import { createHttpClient } from "@/data/api/createHttpClient";
 import { useNavigate } from "react-router";
 
 
 import "./landingPage.css";
 import { Toast } from "@/components/toast/Toast";
 
-const userRepository = new UserRepository(createHttpClient());
 
 export default function LandingPage(): React.ReactNode {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    (async () => await userRepository.logout())();
-  }, []);
+
 
   return (
     <div className="landing-page_container">

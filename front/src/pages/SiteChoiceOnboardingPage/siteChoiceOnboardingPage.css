@@ -13,3 +13,7 @@
 .site-choice-onboarding_title{
     margin: var(--spacing-md)
 }
+
+.card_onboarding-site-choice_info-container_site-address{
+white-space: nowrap
+}

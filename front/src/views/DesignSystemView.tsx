@@ -7,8 +7,6 @@ import { OnboardingInfoConfirmationCard } from "@/components/cards/OnboardingInf
 import { OnboardingSiteConfirmationCard } from "@/components/cards/OnboardingSiteConfirmationCard";
 import { OnboardingFormulaConfirmationCard } from "@/components/cards/OnboardingFormulaConfirmationCard";
 import { Card } from "@/components/cards/Card";
-import ButtonTest from "@/components/composantStore/ButtonStore";
-import ButtonTest2 from "@/components/composantStore/ButtonStore2";
 import { Input } from "@/components/inputs/Inputs";
 import OnboardingProgressionBar from "@/components/onboardingProgressionBar/OnboardingProgressionBar";
 import { Link } from "react-router";
@@ -48,7 +46,6 @@ export default function DesignSystemView(): React.ReactNode {
       console.log("Succès:", data);
     }
   };
-
 
   /* --- Hooks et fonctions pour input menu déroulant --- */
 
@@ -222,9 +219,11 @@ export default function DesignSystemView(): React.ReactNode {
           <div style={{ padding: "20px", maxWidth: "400px" }}>
             <CustomSelectUser
               label="Membre concerné"
-              users={fakeUsers}
+              items={fakeUsers}
               selectedValue={selectedUserId}
               onChange={(val) => setSelectedUserId(val)}
+              placeholder="-- Choisir un profil --"
+              renderOption={(user) => `${user.prenom} ${user.nom}`}
             />
           </div>
         </section>
@@ -389,12 +388,6 @@ export default function DesignSystemView(): React.ReactNode {
         </section>
       </div>
 
-      {/* exemple de store */}
-      <section>
-        <h2>test store</h2>
-        <ButtonTest />
-        <ButtonTest2 />
-      </section>
     </div>
   );
 }

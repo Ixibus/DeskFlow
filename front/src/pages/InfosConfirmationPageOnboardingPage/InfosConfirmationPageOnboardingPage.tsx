@@ -5,8 +5,42 @@ import { Button } from "@/components/buttons/Buttons";
 import { OnboardingInfoConfirmationCard } from "@/components/cards/OnboardingInfoConfirmationCard";
 import { OnboardingSiteConfirmationCard } from "@/components/cards/OnboardingSiteConfirmationCard";
 import { OnboardingFormulaConfirmationCard } from "@/components/cards/OnboardingFormulaConfirmationCard";
+import { useOnboardingStore } from "@/stores/useOnboardingStore";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { useToastStore } from "@/stores/toastStore";
 
 export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
+    const showToast = useToastStore((state) => state.showToast);
+  
+  const { activeStep, login, selectedSiteId, selectedFormulaId } = useOnboardingStore();
+const navigate = useNavigate();
+
+useEffect(() => {
+  if (!login || !selectedSiteId || !selectedFormulaId || activeStep < 4) {
+    navigate("/signup"); // Redirection vers l'étape initiale
+  }
+}, [activeStep, login, selectedSiteId, selectedFormulaId, navigate]);
+
+const { finalizeOnboarding, resetOnboarding } = useOnboardingStore();
+
+const handleFinalConfirmation = async () => {
+  const result = await finalizeOnboarding();
+  if (!result.success) {
+    // Fournir une valeur par défaut si result.error est undefined
+    showToast(
+      result.error || "Une erreur est survenue lors de la validation.",
+      "error"
+    );
+    console.error(result.error);
+    return;
+  }
+
+  // Succès total ! On réinitialise le store d'onboarding et on redirige
+  resetOnboarding();
+  navigate("/mailConfirmationOnboarding");
+};
+
   return (
     <div className="infos-confirmation-onboarding_container">
       <div className="infos-confirmation-onboarding_title-container">
@@ -94,7 +128,7 @@ export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
         variant="validator"
         buttonType="largeValidatorType"
         buttonPosition="center"
-        onClick={() => console.log("clicked")}
+        onClick={handleFinalConfirmation}
       >
         Valider
       </Button>

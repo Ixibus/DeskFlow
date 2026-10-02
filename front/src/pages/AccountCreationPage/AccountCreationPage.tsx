@@ -2,20 +2,32 @@ import "./accountCreationPage.css";
 
 import { Input } from "@/components/inputs/Inputs";
 import { Button } from "@/components/buttons/Buttons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToastStore } from "@/stores/toastStore";
 import { useNavigate } from "react-router";
 import { Toast } from "@/components/toast/Toast";
 import { supabase } from "@/lib/supabaseClient";
-import { useOnboardingStore } from "@/stores/useOnboardingStore"; // <--- Import du store
+import { useOnboardingStore } from "@/stores/useOnboardingStore";
 
-export default function AccountCreationPage(): React.ReactNode {
-  // On peut initialiser avec les valeurs du store si l'utilisateur revient en arrière
+interface AccountCreationPageProps {
+  isModal?: boolean;
+  onClose?: () => void;
+  closeButton?: React.ReactNode;
+}
+
+export default function AccountCreationPage({
+  isModal = false,
+  onClose,
+  closeButton,
+}: AccountCreationPageProps): React.ReactNode {
   const store = useOnboardingStore();
+
   const [email, setEmail] = useState(store.email || "");
   const [login, setLogin] = useState(store.login || "");
   const [password, setPassword] = useState(store.password || "");
-  const [confirmPassword, setConfirmPassword] = useState(store.confirmPassword || "");
+  const [confirmPassword, setConfirmPassword] = useState(
+    store.confirmPassword || "",
+  );
 
   const [emailError, setEmailError] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -24,6 +36,10 @@ export default function AccountCreationPage(): React.ReactNode {
 
   const showToast = useToastStore((state) => state.showToast);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    store.setActiveStep(1);
+  }, [store.setActiveStep]);
 
   const handleClear = () => {
     setEmail("");
@@ -45,10 +61,22 @@ export default function AccountCreationPage(): React.ReactNode {
 
     let hasError = false;
 
-    if (!email.trim()) { setEmailError("L'email est obligatoire"); hasError = true; }
-    if (!login.trim()) { setLoginError("Le login est obligatoire"); hasError = true; }
-    if (!password) { setPasswordError("Le mot de passe est obligatoire"); hasError = true; }
-    if (!confirmPassword) { setConfirmPasswordError("La confirmation est obligatoire"); hasError = true; }
+    if (!email.trim()) {
+      setEmailError("L'email est obligatoire");
+      hasError = true;
+    }
+    if (!login.trim()) {
+      setLoginError("Le login est obligatoire");
+      hasError = true;
+    }
+    if (!password) {
+      setPasswordError("Le mot de passe est obligatoire");
+      hasError = true;
+    }
+    if (!confirmPassword) {
+      setConfirmPasswordError("La confirmation est obligatoire");
+      hasError = true;
+    }
 
     if (hasError) {
       showToast("Tous les champs doivent être renseignés", "error");
@@ -76,7 +104,6 @@ export default function AccountCreationPage(): React.ReactNode {
     }
 
     try {
-      // On garde juste la vérification du login en base (ce qui est très bien)
       const { data: loginExists } = await supabase.rpc("check_login_exists", {
         p_login: login,
       });
@@ -87,18 +114,19 @@ export default function AccountCreationPage(): React.ReactNode {
         return;
       }
 
-      // --- CHANGEMENT MAJEUR ICI ---
-      // On ne fait PLUS de supabase.auth.signUp ici ! 
-      // On stocke tout proprement dans Zustand et on avance d'étape.
       store.updateField("email", email);
       store.updateField("login", login);
       store.updateField("password", password);
       store.updateField("confirmPassword", confirmPassword);
-      store.setActiveStep(2); // Passage à l'étape 2
 
       showToast("Informations enregistrées avec succès.", "success");
-      navigate("/siteChoiceOnboarding"); // Redirection vers le choix du site
 
+      if (isModal && onClose) {
+        onClose();
+      } else {
+        store.setActiveStep(2);
+        navigate("/siteChoiceOnboarding");
+      }
     } catch (error: any) {
       showToast(error.message || "Une erreur est survenue", "error");
     }
@@ -108,6 +136,7 @@ export default function AccountCreationPage(): React.ReactNode {
     <div className="create-account_container">
       <div className="create-account_formContainer">
         <div className="create-account_accountCreationContainer">
+          {isModal && closeButton}
           <h2>Création de compte</h2>
 
           {/* Champ Email */}
@@ -118,23 +147,27 @@ export default function AccountCreationPage(): React.ReactNode {
               variant="default"
               value={email}
               error={Boolean(emailError)}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (emailError) setEmailError(""); // Efface l'erreur dès la saisie
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
               }}
             />
-            {emailError && (
+
               <span
                 style={{
                   color: "crimson",
                   fontSize: "12px",
                   display: "block",
                   marginTop: "4px",
+                  visibility: emailError ? "visible" : "hidden",
                 }}
               >
-                {emailError}
+                {emailError || "placeholder-invisible"}
               </span>
-            )}
+
           </div>
 
           {/* Champ Login */}
@@ -145,23 +178,27 @@ export default function AccountCreationPage(): React.ReactNode {
               variant="default"
               value={login}
               error={Boolean(loginError)}
-              onChange={(e) => setLogin(e.target.value)}
+              onChange={(e) => {
+                setLogin(e.target.value);
+                if (loginError) setLoginError(""); // Efface l'erreur dès la saisie
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
               }}
             />
-            {loginError && (
+
               <span
                 style={{
                   color: "crimson",
                   fontSize: "12px",
                   display: "block",
                   marginTop: "4px",
+                  visibility: loginError ? "visible" : "hidden",
                 }}
               >
-                {loginError}
+                {loginError || "placeholder-invisible"}
               </span>
-            )}
+
           </div>
 
           {/* Champ Mot de passe */}
@@ -172,23 +209,27 @@ export default function AccountCreationPage(): React.ReactNode {
               variant="secret"
               value={password}
               error={Boolean(passwordError)}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (passwordError) setPasswordError(""); // Efface l'erreur dès la saisie
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
               }}
             />
-            {passwordError && (
+
               <span
                 style={{
                   color: "crimson",
                   fontSize: "12px",
                   display: "block",
                   marginTop: "4px",
+                  visibility: passwordError ? "visible" : "hidden",
                 }}
               >
-                {passwordError}
+                {passwordError || "placeholder-invisible"}
               </span>
-            )}
+
           </div>
 
           {/* Champ Confirmation mot de passe */}
@@ -199,23 +240,27 @@ export default function AccountCreationPage(): React.ReactNode {
               variant="secret"
               value={confirmPassword}
               error={Boolean(confirmPasswordError)}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                if (confirmPasswordError) setConfirmPasswordError(""); // Efface l'erreur dès la saisie
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
               }}
             />
-            {confirmPasswordError && (
+
               <span
                 style={{
                   color: "crimson",
                   fontSize: "12px",
                   display: "block",
                   marginTop: "4px",
+                  visibility: confirmPasswordError ? "visible" : "hidden",
                 }}
               >
-                {confirmPasswordError}
+                {confirmPasswordError || "placeholder-invisible"}
               </span>
-            )}
+
           </div>
 
           <Button buttonType="largeType" onClick={handlerSubmit}>

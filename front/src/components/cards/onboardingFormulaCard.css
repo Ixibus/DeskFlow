@@ -4,5 +4,31 @@
   border: 1px solid var(--color-border-card-primary);
   border-radius: 6px;
   box-shadow: 4px 4px 0 var(--color-border-card-primary);
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+/* --- Version Interactive (grisée par défaut, se colore au survol/sélection) --- */
+.onboardingFormulaCard--interactive {
+  cursor: pointer;
+  filter: grayscale(100%) opacity(0.7);
+}
+
+.onboardingFormulaCard--interactive:hover {
+  filter: none;
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary);
+}
+
+.onboardingFormulaCard--interactive:active {
+  filter: none;
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary);
+}
+
+.onboardingFormulaCard--selected {
+  filter: none;
+  transform: translate(-3px, -3px);
+  border-color: var(--color-primary);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary), inset 0 0 0 1px var(--color-primary);
 }

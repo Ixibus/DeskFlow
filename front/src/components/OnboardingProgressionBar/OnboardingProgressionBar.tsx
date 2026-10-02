@@ -25,17 +25,15 @@ export default function OnboardingProgressionBar() {
           <span className="stepText">Création</span>
         </li>
 
-        {/* Segment 1–2 */}
+        {/* Segment 1–2 (Se remplit si on atteint ou dépasse l'étape 2) */}
         <div 
-          // className={`segment ${activeStep >= 2 ? "filled" : ""}`} 
-          className="segment filled" 
+          className={`segment ${activeStep >= 2 ? "filled" : ""}`} 
           aria-hidden="true" 
         />
 
         {/* Étape 2 */}
         <li 
-          // className={`stepContainer ${activeStep >= 2 ? "is-active" : ""}`}
-          className="stepContainer is-active"
+          className={`stepContainer ${activeStep >= 2 ? "is-active" : ""}`}
           aria-current={activeStep === 2 ? "step" : undefined}
         >
           <p 
@@ -47,7 +45,7 @@ export default function OnboardingProgressionBar() {
           <span className="stepText">Site</span>
         </li>
 
-        {/* Segment 2–3 */}
+        {/* Segment 2–3 (Se remplit si on atteint ou dépasse l'étape 3) */}
         <div 
           className={`segment ${activeStep >= 3 ? "filled" : ""}`} 
           aria-hidden="true" 
@@ -60,14 +58,14 @@ export default function OnboardingProgressionBar() {
         >
           <p 
             className="stepNumberContainer" 
-            aria-label={`Étape 3 sur 4 : choix de la fomrule`}
+            aria-label={`Étape 3 sur 4 : Choix de la formule`}
           >
             3
           </p>
           <span className="stepText">Formule</span>
         </li>
 
-        {/* Segment 3–4 */}
+        {/* Segment 3–4 (Se remplit si on atteint ou dépasse l'étape 4) */}
         <div 
           className={`segment ${activeStep >= 4 ? "filled" : ""}`} 
           aria-hidden="true" 

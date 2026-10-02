@@ -1,4 +1,4 @@
-import "./onboardingFormulaCard.css";
+import "./onboardingFormulaCard.css"; // (ou ton fichier de style de carte formule)
 
 type OnboardingFormulaCardProps = {
   children: React.ReactNode;
@@ -15,12 +15,13 @@ export function OnboardingFormulaCard({
   selected = false,
   onClick,
 }: OnboardingFormulaCardProps): React.ReactNode {
+  const interactiveClass = interactive ? " onboardingFormulaCard--interactive" : "";
+  const selectedClass = selected ? " onboardingFormulaCard--selected" : "";
+
   return (
     <div
-      className={`onboardingFormulaCard ${className ?? ""} ${
-        interactive ? "interactive" : ""
-      } ${selected ? "selected" : ""}`.trim()}
-      onClick={interactive ? onClick : undefined}
+      className={`onboardingFormulaCard${interactiveClass}${selectedClass} ${className ?? ""}`.trim()}
+      onClick={onClick}
     >
       {children}
     </div>

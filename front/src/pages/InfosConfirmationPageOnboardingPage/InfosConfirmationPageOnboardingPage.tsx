@@ -7,71 +7,116 @@ import { OnboardingSiteConfirmationCard } from "@/components/cards/OnboardingSit
 import { OnboardingFormulaConfirmationCard } from "@/components/cards/OnboardingFormulaConfirmationCard";
 import { useOnboardingStore } from "@/stores/useOnboardingStore";
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useToastStore } from "@/stores/toastStore";
 
+import AccountCreationPage from "@/pages/AccountCreationPage/AccountCreationPage";
+import SiteChoiceOnboardingPage from "@/pages/SiteChoiceOnboardingPage/SiteChoiceOnboardingPage";
+import FormulaChoiceOnboardingPage from "@/pages/FormulaChoiceOnboardingPage/FormulaChoiceOnboardingPage";
+
+type EditingType = "infos" | "site" | "formula" | null;
+
 export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
-    const showToast = useToastStore((state) => state.showToast);
-  
-  const { activeStep, login, selectedSiteId, selectedFormulaId } = useOnboardingStore();
-const navigate = useNavigate();
+  const showToast = useToastStore((state) => state.showToast);
+  const [editingSection, setEditingSection] = useState<EditingType>(null);
 
-useEffect(() => {
-  if (!login || !selectedSiteId || !selectedFormulaId || activeStep < 4) {
-    navigate("/signup"); // Redirection vers l'étape initiale
-  }
-}, [activeStep, login, selectedSiteId, selectedFormulaId, navigate]);
+  const {
+    activeStep,
+    login,
+    email,
+    selectedSiteId,
+    selectedSiteName,
+    selectedSiteAddress,
+    selectedSiteZipCode,
+    selectedFormulaId,
+    setActiveStep,
+    finalizeOnboarding,
+    resetOnboarding,
+  } = useOnboardingStore();
 
-const { finalizeOnboarding, resetOnboarding } = useOnboardingStore();
+  const navigate = useNavigate();
+// Ajoute un état pour bloquer la redirection de sécurité pendant la soumission
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-const handleFinalConfirmation = async () => {
-  const result = await finalizeOnboarding();
-  if (!result.success) {
-    // Fournir une valeur par défaut si result.error est undefined
-    showToast(
-      result.error || "Une erreur est survenue lors de la validation.",
-      "error"
-    );
-    console.error(result.error);
-    return;
-  }
+  useEffect(() => {
+    setActiveStep(4);
+  }, [activeStep]);
 
-  // Succès total ! On réinitialise le store d'onboarding et on redirige
-  resetOnboarding();
-  navigate("/mailConfirmationOnboarding");
-};
+  useEffect(() => {
+    // Si on est en train de valider/quitter, on ignore cette sécurité
+    if (isSubmitting) return;
+
+    if (!login || !selectedSiteId || !selectedFormulaId) {
+      navigate("/signup");
+    }
+  }, [login, selectedSiteId, selectedFormulaId, navigate, isSubmitting]);
+
+  const handleFinalConfirmation = async () => {
+    setIsSubmitting(true); // On verrouille la sécurité
+    console.log("1. Clic sur Valider détecté");
+    
+    const result = await finalizeOnboarding();
+    console.log("2. Résultat de finalizeOnboarding :", result);
+
+    if (!result.success) {
+      setIsSubmitting(false); // On déverrouille en cas d'erreur
+      showToast(
+        result.error || "Une erreur est survenue lors de la validation.",
+        "error",
+      );
+      return;
+    }
+
+    if (email) {
+      sessionStorage.setItem("registeredEmail", email);
+    }
+
+    console.log("4. Succès ! Appel de resetOnboarding...");
+    resetOnboarding();
+
+    console.log("5. Tentative de navigation vers /mailConfirmationOnboarding...");
+    navigate("/mailConfirmationOnboarding");
+  };
+
+  const formulaHours =
+    selectedFormulaId === "Premium" ? "50 heures/mois" : "20 heures/mois";
 
   return (
     <div className="infos-confirmation-onboarding_container">
       <div className="infos-confirmation-onboarding_title-container">
         <h2 className="infos-confirmation-onboarding_title">
-          Confimez vos informations
+          Confirmez vos informations
         </h2>
       </div>
+
       <div className="infos-confirmation-onboarding_infoss-container">
+        {/* SECTION INFOS PERSONNELLES */}
         <h3 className="infos-confirmation-onboarding_subtitle">
-          Vos informations personnels
+          Vos informations personnelles
         </h3>
         <OnboardingInfoConfirmationCard className="card_onboarding-info-confimation_container-display">
           <Button
             variant="canceller"
             buttonType="largeMediumType"
             buttonPosition="right"
+            onClick={() => setEditingSection("infos")}
           >
             Modifier
           </Button>
           <div className="card_onboarding-info-confimation_info-container">
             <p className="card_onboarding-info-confimation_login typo-body">
-              leLogin
+              {login || "Mon login"}
             </p>
             <p className="card_onboarding-info-confimation_mail typo-body">
-              leMail
+              {email || "mon.email@exemple.com"}
             </p>
             <p className="card_onboarding-info-confimation_hiddenPassword typo-body">
               *******
             </p>
           </div>
         </OnboardingInfoConfirmationCard>
+
+        {/* SECTION SITE D'ATTRIBUTION */}
         <h3 className="infos-confirmation-onboarding_subtitle">
           Votre site d'attribution
         </h3>
@@ -80,6 +125,7 @@ const handleFinalConfirmation = async () => {
             variant="canceller"
             buttonType="largeMediumType"
             buttonPosition="right"
+            onClick={() => setEditingSection("site")}
           >
             Modifier
           </Button>
@@ -89,17 +135,19 @@ const handleFinalConfirmation = async () => {
             </div>
             <div className="card_onboarding-site-confimation_info-container">
               <h2 className="card_onboarding-site-confimation_info-container_site-name typo-h2">
-                Le Capitole
+                {selectedSiteName || "Nom du site"}
               </h2>
               <h3 className="card_onboarding-site-confimation_info-container_site-address typo-h3">
-                Place Capitole
+                {selectedSiteAddress || "Adresse du site"}
               </h3>
               <p className="card_onboarding-site-confimation_info-container_site-zipCode typo-body">
-                31000 Toulouse
+                {selectedSiteZipCode || "Code postal"}
               </p>
             </div>
           </div>
         </OnboardingSiteConfirmationCard>
+
+        {/* SECTION FORMULE */}
         <h3 className="infos-confirmation-onboarding_subtitle">
           Votre formule
         </h3>
@@ -108,15 +156,16 @@ const handleFinalConfirmation = async () => {
             variant="canceller"
             buttonType="largeMediumType"
             buttonPosition="right"
+            onClick={() => setEditingSection("formula")}
           >
             Modifier
           </Button>
           <div className="card_onboarding-infos-confirmation_info-container">
             <h2 className="card_onboarding-infos-confirmation_info-container_infos-name typo-h2">
-              Classique
+              {selectedFormulaId || "Classique"}
             </h2>
             <h3 className="card_onboarding-infos-confirmation_info-container_infos-hours typo-h3">
-              20 heures/mois
+              {formulaHours}
             </h3>
             <p className="card_onboarding-infos-confirmation_info-container_infos-freeOption typo-body">
               Annulation gratuite !
@@ -124,6 +173,7 @@ const handleFinalConfirmation = async () => {
           </div>
         </OnboardingFormulaConfirmationCard>
       </div>
+
       <Button
         variant="validator"
         buttonType="largeValidatorType"
@@ -132,6 +182,56 @@ const handleFinalConfirmation = async () => {
       >
         Valider
       </Button>
+
+      {/* --- OVERLAYS MODAUX DE MODIFICATION --- */}
+      {editingSection !== null && (
+        <div className="onboarding-overlay-backdrop">
+          <div className="onboarding-overlay-content">
+            {editingSection === "infos" && (
+              <AccountCreationPage
+                isModal={true}
+                onClose={() => setEditingSection(null)}
+                closeButton={
+                  <button
+                    type="button"
+                    className="onboarding-overlay-close-btn"
+                    onClick={() => setEditingSection(null)}
+                  />
+                }
+              />
+            )}
+
+            {editingSection === "site" && (
+              <SiteChoiceOnboardingPage
+                isModal={true}
+                onClose={() => setEditingSection(null)}
+                closeButton={
+                  <button
+                    type="button"
+                    className="onboarding-overlay-close-btn"
+                    onClick={() => setEditingSection(null)}
+                  />
+                }
+              />
+            )}
+
+            {editingSection === "formula" && (
+              <FormulaChoiceOnboardingPage
+                isModal={true}
+                onClose={() => setEditingSection(null)}
+                closeButton={
+                  <button
+                    type="button"
+                    className="onboarding-overlay-close-btn"
+                    onClick={() => setEditingSection(null)}
+                  />
+                }
+              />
+            )}
+          </div>
+        </div>
+      )}
+
       <Toast />
     </div>
   );

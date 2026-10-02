@@ -8,16 +8,29 @@ interface OnboardingState {
   login: string;
   password: string;
   confirmPassword: string;
+
+  // Stockage de l'ID et des détails du site pour l'affichage récapitulatif
   selectedSiteId: number | null;
-  selectedFormulaId: string | null; // <--- MODIFIÉ ICI (string au lieu de number)
+  selectedSiteName: string | null;
+  selectedSiteAddress: string | null;
+  selectedSiteZipCode: string | null;
+
+  selectedFormulaId: string | null;
 
   // Actions
   setActiveStep: (step: number) => void;
-  setSelectedSiteId: (id: number | null) => void;
-  setSelectedFormulaId: (id: string | null) => void; // <--- MODIFIÉ ICI
+  setSelectedSite: (
+    site: {
+      id_site: number;
+      nom: string;
+      adresse: string;
+      zip_code: string;
+    } | null,
+  ) => void;
+  setSelectedFormulaId: (id: string | null) => void;
   updateField: (field: string, value: any) => void;
   resetOnboarding: () => void;
-  
+
   finalizeOnboarding: () => Promise<{ success: boolean; error?: string }>;
 }
 
@@ -30,10 +43,22 @@ export const useOnboardingStore = create<OnboardingState>()(
       password: "",
       confirmPassword: "",
       selectedSiteId: null,
+      selectedSiteName: null,
+      selectedSiteAddress: null,
+      selectedSiteZipCode: null,
       selectedFormulaId: null,
 
       setActiveStep: (step) => set({ activeStep: step }),
-      setSelectedSiteId: (id) => set({ selectedSiteId: id }),
+
+      // Nouvelle action pour enregistrer le site complet d'un coup
+      setSelectedSite: (site) =>
+        set({
+          selectedSiteId: site ? site.id_site : null,
+          selectedSiteName: site ? site.nom : null,
+          selectedSiteAddress: site ? site.adresse : null,
+          selectedSiteZipCode: site ? site.zip_code : null,
+        }),
+
       setSelectedFormulaId: (id) => set({ selectedFormulaId: id }),
       updateField: (field, value) => set({ [field]: value }),
 
@@ -45,6 +70,9 @@ export const useOnboardingStore = create<OnboardingState>()(
           password: "",
           confirmPassword: "",
           selectedSiteId: null,
+          selectedSiteName: null,
+          selectedSiteAddress: null,
+          selectedSiteZipCode: null,
           selectedFormulaId: null,
         }),
 
@@ -52,7 +80,10 @@ export const useOnboardingStore = create<OnboardingState>()(
         const state = get();
 
         if (!state.email || !state.password || !state.login) {
-          return { success: false, error: "Informations de compte manquantes." };
+          return {
+            success: false,
+            error: "Informations de compte manquantes.",
+          };
         }
         if (!state.selectedSiteId) {
           return { success: false, error: "Aucun site sélectionné." };
@@ -61,54 +92,74 @@ export const useOnboardingStore = create<OnboardingState>()(
           return { success: false, error: "Aucune formule sélectionnée." };
         }
 
-        // Plus d'erreur ici puisque selectedFormulaId est bien une string ("Classique" / "Premium")
-        let quotaValue = 0; 
-        if (state.selectedFormulaId === 'Classique') {
+        let quotaValue = 0;
+        if (state.selectedFormulaId === "Classique") {
           quotaValue = 20;
-        } else if (state.selectedFormulaId === 'Premium') {
+        } else if (state.selectedFormulaId === "Premium") {
           quotaValue = 50;
         }
 
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email: state.email,
-          password: state.password,
-          options: {
-            data: {
-              login: state.login,
+        const { data: authData, error: authError } = await supabase.auth.signUp(
+          {
+            email: state.email,
+            password: state.password,
+            options: {
+              data: {
+                login: state.login,
+              },
             },
           },
-        });
+        );
 
         if (authError || !authData.user) {
-          return { success: false, error: authError?.message || "Erreur lors de la création du compte." };
+          return {
+            success: false,
+            error:
+              authError?.message || "Erreur lors de la création du compte.",
+          };
         }
 
         const userId = authData.user.id;
 
+        // Utilisation de upsert pour la table utilisateurs
         const { error: userTableError } = await supabase
-          .from('utilisateurs')
-          .insert([
-            {
-              id_utilisateur: userId,
-              login: state.login,
-              mail: state.email,
-              role: 'Membre',
-              quota: quotaValue
-            }
-          ]);
+          .from("utilisateurs")
+          .upsert(
+            [
+              {
+                id_utilisateur: userId,
+                login: state.login,
+                mail: state.email,
+                role: "Membre",
+                quota: quotaValue,
+              },
+            ],
+            { onConflict: "id_utilisateur" },
+          );
 
         if (userTableError) {
-          return { success: false, error: "Erreur lors de la création du profil utilisateur : " + userTableError.message };
+          return {
+            success: false,
+            error:
+              "Erreur lors de la création du profil utilisateur : " +
+              userTableError.message,
+          };
         }
 
+        // Utilisation de upsert pour la table utilisateurs_sites avec la contrainte unique sur fk_utilisateurs
         const { error: siteError } = await supabase
-          .from('utilisateurs_sites')
-          .insert([
-            { fk_utilisateurs: userId, fk_sites: state.selectedSiteId }
-          ]);
+          .from("utilisateurs_sites")
+          .upsert(
+            [{ fk_utilisateurs: userId, fk_sites: state.selectedSiteId }],
+            { onConflict: "fk_utilisateurs" },
+          );
 
         if (siteError) {
-          return { success: false, error: "Erreur lors de l'association du site : " + siteError.message };
+          return {
+            success: false,
+            error:
+              "Erreur lors de l'association du site : " + siteError.message,
+          };
         }
 
         return { success: true };
@@ -116,6 +167,6 @@ export const useOnboardingStore = create<OnboardingState>()(
     }),
     {
       name: "deskflow-onboarding-storage",
-    }
-  )
+    },
+  ),
 );

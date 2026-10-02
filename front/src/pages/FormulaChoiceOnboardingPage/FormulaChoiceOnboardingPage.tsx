@@ -8,37 +8,60 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import { useToastStore } from "@/stores/toastStore";
 
-export default function FormulaChoiceOnboardingPage(): React.ReactNode {
-      const showToast = useToastStore((state) => state.showToast);
-  
-  const { activeStep, login, selectedSiteId, selectedFormulaId, setSelectedFormulaId, setActiveStep } = useOnboardingStore();
+interface FormulaChoiceOnboardingPageProps {
+  isModal?: boolean;
+  onClose?: () => void;
+  closeButton?: React.ReactNode;
+}
+
+export default function FormulaChoiceOnboardingPage({
+  isModal = false,
+  onClose,
+
+  closeButton,
+}: FormulaChoiceOnboardingPageProps): React.ReactNode {
+  const showToast = useToastStore((state) => state.showToast);
+
+  const {
+    login,
+    selectedSiteId,
+    selectedFormulaId,
+    setSelectedFormulaId,
+    setActiveStep,
+  } = useOnboardingStore();
   const navigate = useNavigate();
 
-  // Garde de sécurité : vérifie que les étapes précédentes ont bien été remplies
-  useEffect(() => {
-    if (!login || !selectedSiteId || activeStep < 3) {
-      navigate("/signup"); // Redirection vers l'étape initiale si manquement
-    }
-  }, [activeStep, login, selectedSiteId, navigate]);
+useEffect(() => {
+    if (isModal) return; // Ignore en mode modale
+
+    // On se contente de mettre à jour l'étape active à 3, sans bloquer le retour arrière
+    setActiveStep(3);
+  }, [setActiveStep, isModal]);
 
   const handleValidate = () => {
     if (!selectedFormulaId) {
-      // Optionnel : tu pourrais afficher un toast ici pour dire de choisir une formule
       showToast("Veuillez sélectionner une formule.", "error");
       return;
     }
 
-    // Passage à l'étape 4 (Confirmation)
-    setActiveStep(4);
-    navigate("/onboarding/confirmation"); // Adapte la route vers ta page de confirmation finale si besoin
+    // Comportement conditionnel : Modale vs Parcours normal
+    if (isModal && onClose) {
+      onClose(); // Ferme la modale et revient sur la confirmation
+    } else {
+      setActiveStep(4);
+      navigate("/infosConfirmationPageOnboarding");
+    }
   };
 
   return (
     <div className="formula-choice-onboarding_container">
+      {/* Le bouton s'affiche physiquement ici uniquement en mode modale */}
+
+      {isModal && closeButton}
       <div className="formula-choice-onboarding_title-container">
         <h2 className="formula-choice-onboarding_title">Choix de la formule</h2>
       </div>
-      
+
       <div className="formula-choice-onboarding_formulas-container">
         <OnboardingFormulaCard
           interactive={true}
@@ -46,7 +69,6 @@ export default function FormulaChoiceOnboardingPage(): React.ReactNode {
           onClick={() => setSelectedFormulaId("Classique")}
           className="card_onboarding-formula-choice_container-display"
         >
-          <div className="card_onboarding-formula-choice_closeItem-container" />
           <div className="card_onboarding-formula-choice_info-container">
             <h2 className="card_onboarding-formula-choice_info-container_formula-name typo-h2">
               Classique
@@ -66,7 +88,6 @@ export default function FormulaChoiceOnboardingPage(): React.ReactNode {
           onClick={() => setSelectedFormulaId("Premium")}
           className="card_onboarding-formula-choice_container-display"
         >
-          <div className="card_onboarding-formula-choice_closeItem-container" />
           <div className="card_onboarding-formula-choice_info-container">
             <h2 className="card_onboarding-formula-choice_info-container_formula-name typo-h2">
               Premium

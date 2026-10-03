@@ -27,9 +27,12 @@
     text-align: center;
 }
 
+.connexion-account_password-forgotten_container{
+    text-align: center;
+}
+
 .connexion-account_password-forgotten_link{
     cursor: pointer;
-    text-align: center;
     text-decoration: underline;
     transition: var(--transition-fast);
 }

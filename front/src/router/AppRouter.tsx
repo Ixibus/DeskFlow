@@ -25,6 +25,7 @@ import MemberAddingBookingOverlay from "@/components/overlays/MemberAddingBookin
 import AdminAddingBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
 import ReservationPage from "@/pages/ReservationPage/ReservationPage";
 import MemberAnnulationOverlay from "@/components/overlays/MemberAnnulationOverlay/MemberAnnulationOverlay";
+import UpdatePasswordPage from "@/pages/UpdatePasswordPage/UpdatePasswordPage";
 
 export function AppRouter() {
   return (
@@ -42,6 +43,7 @@ export function AppRouter() {
         </Route>
           <Route element={<ConnexionLayout />}>
             <Route path="/signin" element={<ConnexionPage />} />
+            <Route path="/updatePassword" element={<UpdatePasswordPage />} />
         </Route>
         {/* <Route element={<ProtectedRoute />}> */}
           <Route element={<AppLayout />}>

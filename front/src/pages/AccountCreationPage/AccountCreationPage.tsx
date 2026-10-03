@@ -98,8 +98,8 @@ export default function AccountCreationPage({
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      setPasswordError("8 caractères min, 1 maj, 1 min, 1 chiffre, 1 spécial.");
-      showToast("Le mot de passe ne respecte pas les critères", "error");
+      setPasswordError("format du mot de passe incorrect");
+      showToast("Il faut:\n - 8 caractères minimum\n - une majuscule\n - une minuscule\n - un chiffre\n - un caractère spécial", "error");
       return;
     }
 

@@ -5,7 +5,6 @@ interface SupabaseStore {
   loading: boolean;
   signInWithLogin: (loginInput: string, passwordInput: string) => Promise<{ success: boolean; error?: string }>;
   // Emplacements prévus pour tes futurs appels CRUD (User, Sites, etc.)
-  // ex: fetchSites: async () => {}
 }
 
 export const useSupabaseStore = create<SupabaseStore>((set) => ({
@@ -14,12 +13,12 @@ export const useSupabaseStore = create<SupabaseStore>((set) => ({
   signInWithLogin: async (loginInput: string, passwordInput: string) => {
     set({ loading: true });
     try {
-      // 1. Récupérer l'e-mail associé au login dans la table publique 'utilisateurs'
+      // 1. Récupérer l'e-mail associé au login (ou à l'e-mail si l'utilisateur l'a tapé directement)
       const { data: userData, error: fetchError } = await supabase
         .from('utilisateurs')
         .select('mail')
-        .eq('login', loginInput)
-        .single();
+        .or(`login.eq.${loginInput},mail.eq.${loginInput}`)
+        .maybeSingle(); // 👈 Sécurisé pour éviter le 406 si aucun résultat
 
       if (fetchError || !userData) {
         set({ loading: false });

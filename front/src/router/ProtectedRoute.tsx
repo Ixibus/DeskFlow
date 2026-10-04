@@ -5,23 +5,50 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [, setUserRole] = useState<string | null>(null);
+  const [, setUserSite] = useState<number | null>(null);
 
+  
   useEffect(() => {
     let isMounted = true;
+    
+    const checkAuthAndProfile = async (session: any) => {
+      
+      if (!session) {
+        if (isMounted) {
+          setIsAuthenticated(false);
+          setUserRole(null);
+          setUserSite(null);
+        }
+        return;
+      }
 
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      // Session valide, on récupère le profil dans la table 'utilisateurs'
+      const { data: userData, error } = await supabase
+        .from('utilisateurs')
+        .select('role, fk_site')
+        .eq('id_utilisateur', session.user.id)
+        .maybeSingle(); // 👈 Évite le 406 si la ligne n'existe pas encore
+
+      if (error) {
+        console.error("Erreur lors de la récupération du profil utilisateur :", error.message);
+      }
+
       if (isMounted) {
-        setIsAuthenticated(!!session);
+        setIsAuthenticated(true);
+        setUserRole(userData?.role || 'Membre');
+        setUserSite(userData?.fk_site || null);
       }
     };
 
-    checkAuth();
+    // 1. Vérification initiale de la session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      checkAuthAndProfile(session);
+    });
 
+    // 2. Écoute des changements d'état d'authentification
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (isMounted) {
-        setIsAuthenticated(!!session);
-      }
+      checkAuthAndProfile(session);
     });
 
     return () => {
@@ -30,7 +57,7 @@ export default function ProtectedRoute() {
     };
   }, []);
 
-  // Pendant qu'on vérifie, on affiche un écran de chargement neutre (mais SANS laisser passer l'Outlet)
+  // Pendant qu'on vérifie la session et le profil
   if (isAuthenticated === null) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
@@ -39,6 +66,6 @@ export default function ProtectedRoute() {
     );
   }
 
-  // Si c'est faux ou non connecté, redirection ferme vers /signin
+  // Si non connecté, redirection ferme vers /signin
   return isAuthenticated ? <Outlet /> : <Navigate to="/signin" replace />;
 }

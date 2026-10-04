@@ -1,15 +1,9 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { ProtectedRoute } from "@/features/ProtectedRoute";
 import { AppLayout } from "@/components/layout/AppLayout";
-import Home from "@/pages/Home";
-// import Products from "@/page/Products/Products";
-// import CreateProduct from "@/page/CreateProduct/CreateProduct";
-// import EditProduct from "@/page/CreateProduct/EditProduct";
-// import CreateAccount from "@/page/CreateAccount/CreateAccount";
-// import ConnexionAccount from "@/page/ConnexionAccount/ConnexionAccount";
+import ProtectedRoute from "./ProtectedRoute";
+import { AutoLogoutChecker } from "./AutoLogoutChecker";
 import LandingPage from "@/pages/LandingPage/LandingPage";
 import { FirstLayout } from "@/components/layout/FirstLayout";
-import { Badge } from "@/components/badge/Badge";
 import DesignSystemView from "@/views/DesignSystemView";
 import AccountCreationPage from "@/pages/AccountCreationPage/AccountCreationPage";
 import SiteChoiceOnboardingPage from "@/pages/SiteChoiceOnboardingPage/SiteChoiceOnboardingPage";
@@ -19,8 +13,6 @@ import MailConfirmationOnboardingPage from "@/pages/MailConfirmationOnboardingPa
 import ConnexionPage from "@/pages/ConnexionPage/ConnexionPage";
 import { ConnexionLayout } from "@/components/layout/ConnexionLayout";
 import HomePage from "@/pages/Home";
-import MemberBookingOverlay from "@/components/overlays/MemberAddingBookingOverlay/MemberAddingBookingOverlay";
-import AdminBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
 import MemberAddingBookingOverlay from "@/components/overlays/MemberAddingBookingOverlay/MemberAddingBookingOverlay";
 import AdminAddingBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
 import ReservationPage from "@/pages/ReservationPage/ReservationPage";
@@ -30,6 +22,7 @@ import UpdatePasswordPage from "@/pages/UpdatePasswordPage/UpdatePasswordPage";
 export function AppRouter() {
   return (
     <BrowserRouter>
+    <AutoLogoutChecker/>
       <Routes>
         <Route>
           <Route path="/" element={<LandingPage />} />
@@ -45,7 +38,7 @@ export function AppRouter() {
             <Route path="/signin" element={<ConnexionPage />} />
             <Route path="/updatePassword" element={<UpdatePasswordPage />} />
         </Route>
-        {/* <Route element={<ProtectedRoute />}> */}
+        <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
             <Route path="/home" element={<HomePage />} />
             <Route path="/memberBooking" element={<MemberAddingBookingOverlay />} />
@@ -53,7 +46,7 @@ export function AppRouter() {
             <Route path="/reservation" element={<ReservationPage />} />
             <Route path="/memberAnnulation" element={<MemberAnnulationOverlay />} />
           </Route>
-        {/* </Route> */}
+        </Route>
         <Route element={<Navigate to="/signin" replace />} />
           <Route path="/design-system" element={<DesignSystemView />} />
       </Routes>

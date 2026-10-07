@@ -7,6 +7,7 @@ import { useState } from "react";
 import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
 import CustomSelectUser from "@/components/inputs/CustomSelectUser";
 import { BackgroundSet1 } from "@/components/backgroundSet/BackgroundSet1/BackgroundSet1";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function AdminAddingBookingOverlay(): React.ReactNode {
   const [selectedUserId, setSelectedUserId] = useState("");

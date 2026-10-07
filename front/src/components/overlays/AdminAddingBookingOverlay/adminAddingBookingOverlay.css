@@ -1,27 +1,50 @@
-.admin-adding-booking-overlay_container{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
+/* Modale de réservation : même style que ForgotPasswordOverlay */
+ 
+.booking-modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;          /* marge sur mobile pour que la modale ne colle pas aux bords */
+  box-sizing: border-box;
 }
-
-.admin-adding-booking-overlay_title{
-    text-align: center;
+ 
+.booking-modal_container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  /* Le contenu est plus long que celui du mot de passe oublié : on scrolle dans la modale */
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
 }
-
-.admin-adding-booking-overlay_member-selection_title{
-    text-align: center;
+ 
+.booking-modal_title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #0f172a;
 }
-
-h3{
-    margin-top: var(--spacing-md);
+ 
+.booking-modal_actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
 }
-
-.admin-adding-booking-overlay_container-resource-name{
-    text-align: center;
+ 
+/* Mobile : padding réduit pour laisser de la place aux champs */
+@media (max-width: 480px) {
+  .booking-modal_container {
+    padding: 20px;
+  }
 }
-
-.admin-adding-booking-overlay_boutons_container{
-    margin-top: var(--spacing-md);
-    display: flex;
-    gap: var(--spacing-sm);
-}
+ 

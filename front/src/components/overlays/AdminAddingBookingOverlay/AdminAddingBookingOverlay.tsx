@@ -1,95 +1,144 @@
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/buttons/Buttons";
-import "./adminAddingBookingOverlay.css";
 import { Card } from "@/components/cards/Card";
-import { OverlayBackground } from "../OverlayBackground/OverlayBackground";
 import CustomRangeInput from "@/components/inputs/CustomRangeInput";
-import { useState } from "react";
 import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
 import CustomSelectUser from "@/components/inputs/CustomSelectUser";
 import { BackgroundSet1 } from "@/components/backgroundSet/BackgroundSet1/BackgroundSet1";
-import { supabase } from "@/lib/supabaseClient";
+import { useSupabaseStore } from "@/stores/useSupabaseStore";
+import "./adminAddingBookingOverlay.css";
 
-export default function AdminAddingBookingOverlay(): React.ReactNode {
+interface AdminAddingBookingOverlayProps {
+  selectedRessource: any; // La ressource cliquée/sélectionnée
+  onClose: () => void;    // Pour fermer l'overlay après validation ou annulation
+}
+
+export default function AdminAddingBookingOverlay({
+  selectedRessource,
+  onClose,
+}: AdminAddingBookingOverlayProps): React.ReactNode {
+  const {
+    currentUser,
+    users,
+    fetchUsers,
+    bookRessource,
+    fetchRessourcesBySite,
+    fetchAllRessources,
+  } = useSupabaseStore();
+
+  // Seul l'admin choisit le membre ; membre / gestionnaire réservent pour eux-mêmes
+  const isAdmin = currentUser?.role === "Admin";
+
   const [selectedUserId, setSelectedUserId] = useState("");
-
-  // Exemple de 10 utilisateurs (qui viendront plus tard de Supabase)
-  const fakeUsers = [
-    { id: 1, prenom: "Alice", nom: "Dupont" },
-    { id: 2, prenom: "Bob", nom: "Martin" },
-    { id: 3, prenom: "Charlie", nom: "Bernard" },
-    { id: 4, prenom: "Diane", nom: "Thomas" },
-    { id: 5, prenom: "Evan", nom: "Petit" },
-    { id: 6, prenom: "Fanny", nom: "Robert" },
-    { id: 7, prenom: "Gabriel", nom: "Richard" },
-    { id: 8, prenom: "Hélène", nom: "Durand" },
-    { id: 9, prenom: "Ivan", nom: "Leroy" },
-    { id: 10, prenom: "Julia", nom: "Moreau" },
-  ];
   const [places, setPlaces] = useState(1);
-
-  const [date, setDate] = useState("2026-09-28");
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
 
-  const handleReserver = async () => {
-    // Conversion propre pour Supabase (TIMESTAMPTZ)
-    const p_heure_debut = new Date(`${date}T${startTime}:00`).toISOString();
-    const p_heure_fin = new Date(`${date}T${endTime}:00`).toISOString();
+  useEffect(() => {
+    // Chargement des utilisateurs uniquement si admin (la RLS doit de toute façon le restreindre)
+    if (isAdmin) fetchUsers();
+  }, [isAdmin]);
 
-    const { data, error } = await supabase.rpc("reserver_ressource", {
-      p_id_ressource: 1, // ID de la ressource choisie
-      p_heure_debut,
-      p_heure_fin,
-      p_places: 1,
-    });
+  // Fermeture avec Échap + blocage du scroll de la page derrière la modale
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [onClose]);
 
-    if (error) {
-      console.error("Erreur:", error.message);
+  if (!selectedRessource) return null;
+
+  const handleValidate = async () => {
+    const userId = isAdmin ? selectedUserId : currentUser?.id_utilisateur ?? "";
+    if (!userId) {
+      console.error("Aucun membre sélectionné");
+      return;
+    }
+
+    const result = await bookRessource(
+      selectedRessource.id_ressource,
+      userId,
+      date,
+      startTime,
+      endTime,
+      places
+    );
+
+    if (result.success) {
+      console.log("Réservation réussie !");
+      // Rafraîchir les ressources du site concerné (+ réseau entier côté admin)
+      if (selectedRessource.fk_site) {
+        fetchRessourcesBySite(selectedRessource.fk_site);
+      }
+      if (isAdmin) fetchAllRessources();
+      onClose();
     } else {
-      console.log("Succès:", data);
+      console.error("Erreur lors de la réservation :", result.error);
     }
   };
 
   return (
-    <OverlayBackground className="admin-adding-booking-overlay_container">
-      <h2 className="admin-adding-booking-overlay_title typo-h2">
+    // Fond assombri : un clic dessus ferme la modale
+    <div className="booking-modal_overlay" onClick={onClose}>
+      {/* Conteneur blanc : on stoppe la propagation pour ne pas fermer en cliquant dedans */}
+      <div
+        className="booking-modal_container admin-adding-booking-overlay_container"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="booking-modal-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+      <h2 id="booking-modal-title" className="booking-modal_title admin-adding-booking-overlay_title typo-h2">
         Réserver des places
       </h2>
 
-      <h3 className="admin-adding-booking-overlay_member-selection_title typo-h3">
-        choisissez le membre
-      </h3>
-      <CustomSelectUser
-        label="Membre sélectionné"
-        items={fakeUsers}
-        selectedValue={selectedUserId}
-        onChange={(val) => setSelectedUserId(val)}
-        placeholder="-- Choisir un profil --"
-        renderOption={(user) => `${user.prenom} ${user.nom}`}
-      />
+      {isAdmin && (
+        <>
+          <h3 className="admin-adding-booking-overlay_member-selection_title typo-h3">
+            choisissez le membre
+          </h3>
+          <CustomSelectUser
+            label="Membre sélectionné"
+            items={users}
+            selectedValue={selectedUserId}
+            onChange={(val) => setSelectedUserId(val)}
+            placeholder="-- Choisir un profil --"
+            renderOption={(user: any) => `${user.login || user.mail}`}
+          />
+        </>
+      )}
 
       <BackgroundSet1>
-        
         <h3 className="admin-adding-booking-overlay_container-resource-name typo-h3">
-          Lila
+          {selectedRessource.nom_de_la_ressource}
         </h3>
+        
         <Card className="card_site_container-display">
           <div className="card_site_inner-container-display">
             <div className="card_site_img-container">
-              <div className="card_site_desk_img" />
+              <div className={selectedRessource.types === 'Salle' ? "card_site_room_img" : "card_site_desk_img"} />
             </div>
             <div className="card_site_info-container">
               <div className="card_site_info-inner-container">
                 <p className="card_site_info-container-place-configuration typo-body">
-                  ressource solo
+                  {selectedRessource.types} ({selectedRessource.capacite_totale} max)
                 </p>
                 <p className="card_site_info-container-places typo-body">
-                  1 place
+                  {selectedRessource.places_disponibles} place(s) disponible(s)
                 </p>
               </div>
             </div>
           </div>
         </Card>
+
         <h3 className="admin-adding-booking-overlay_places-choice_title">
           choisissez le nombre de place
         </h3>
@@ -97,61 +146,13 @@ export default function AdminAddingBookingOverlay(): React.ReactNode {
           <CustomRangeInput
             label="Nombre de places souhaitées"
             min={1}
-            max={6}
+            max={selectedRessource.places_disponibles || 1}
             value={places}
             onChange={(e) => setPlaces(Number(e.target.value))}
             unit="place(s)"
           />
         </BackgroundSet1>
-        <h3 className="admin-adding-booking-overlay_slot-choice_title">
-          choisissez le créneau
-        </h3>
-        <BackgroundSet1 className="card_site_container-display">
-          <CustomTimeSlotInput
-            date={date}
-            startTime={startTime}
-            endTime={endTime}
-            onDateChange={setDate}
-            onStartTimeChange={setStartTime}
-            onEndTimeChange={setEndTime}
-          />
-        </BackgroundSet1>
-      </BackgroundSet1>
-      <BackgroundSet1>
-        
-        <h3 className="admin-adding-booking-overlay_container-resource-name typo-h3">
-          Tulipe
-        </h3>
-        <Card className="card_site_container-display">
-          <div className="card_site_inner-container-display">
-            <div className="card_site_img-container">
-              <div className="card_site_desk_img" />
-            </div>
-            <div className="card_site_info-container">
-              <div className="card_site_info-inner-container">
-                <p className="card_site_info-container-place-configuration typo-body">
-                  ressource collective
-                </p>
-                <p className="card_site_info-container-places typo-body">
-                  6 places
-                </p>
-              </div>
-            </div>
-          </div>
-        </Card>
-        <h3 className="admin-adding-booking-overlay_places-choice_title">
-          choisissez le nombre de place
-        </h3>
-        <BackgroundSet1 className="card_site_container-display">
-          <CustomRangeInput
-            label="Nombre de places souhaitées"
-            min={1}
-            max={6}
-            value={places}
-            onChange={(e) => setPlaces(Number(e.target.value))}
-            unit="place(s)"
-          />
-        </BackgroundSet1>
+
         <h3 className="admin-adding-booking-overlay_slot-choice_title">
           choisissez le créneau
         </h3>
@@ -167,20 +168,23 @@ export default function AdminAddingBookingOverlay(): React.ReactNode {
         </BackgroundSet1>
       </BackgroundSet1>
 
-        <div className="admin-adding-booking-overlay_boutons_container">
-          <Button
-            children="valider"
-            variant="validator"
-            buttonType="largeValidatorType"
-            buttonPosition="center"
-          />
-          <Button
-            children="annuler"
-            variant="canceller"
-            buttonType="largeValidatorType"
-            buttonPosition="center"
-          />
-        </div>
-    </OverlayBackground>
+      <div className="booking-modal_actions admin-adding-booking-overlay_boutons_container">
+        <Button
+          children="valider"
+          variant="validator"
+          buttonType="largeValidatorType"
+          buttonPosition="center"
+          onClick={handleValidate}
+        />
+        <Button
+          children="annuler"
+          variant="canceller"
+          buttonType="largeValidatorType"
+          buttonPosition="center"
+          onClick={onClose}
+        />
+      </div>
+      </div>
+    </div>
   );
 }

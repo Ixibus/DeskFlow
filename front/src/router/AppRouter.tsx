@@ -42,7 +42,7 @@ export function AppRouter() {
           <Route element={<AppLayout />}>
             <Route path="/home" element={<HomePage />} />
             <Route path="/memberBooking" element={<MemberAddingBookingOverlay />} />
-            <Route path="/adminBooking" element={<AdminAddingBookingOverlay />} />
+            {/* <Route path="/adminBooking" element={<AdminAddingBookingOverlay />} /> */}
             <Route path="/reservation" element={<ReservationPage />} />
             <Route path="/memberAnnulation" element={<MemberAnnulationOverlay />} />
           </Route>

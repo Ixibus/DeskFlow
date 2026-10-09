@@ -147,23 +147,27 @@ export const useSupabaseStore = create<SupabaseStore>((set, get) => ({
   },
  
   // Action de réservation via la RPC Supabase
-  bookRessource: async (ressourceId, userId, date, startTime, endTime, places) => {
+bookRessource: async (ressourceId, userId, date, startTime, endTime, places) => {
     try {
       const p_heure_debut = new Date(`${date}T${startTime}:00`).toISOString();
       const p_heure_fin = new Date(`${date}T${endTime}:00`).toISOString();
- 
-      const { error } = await supabase.rpc("reserver_ressource", {
+
+      const { data, error } = await supabase.rpc("reserver_ressource", {
         p_id_ressource: ressourceId,
         p_heure_debut,
         p_heure_fin,
         p_places: places,
-        // Si ta procédure stockée prend l'utilisateur en paramètre, décommente la ligne ci-dessous :
-        // p_id_utilisateur: userId,
+        p_id_utilisateur: userId, // 👈 Transmet l'ID du membre choisi par l'admin (ou l'utilisateur courant)
       });
- 
+
       if (error) {
         return { success: false, error: error.message };
       }
+
+      if (data && data.success === false) {
+        return { success: false, error: data.error };
+      }
+
       return { success: true };
     } catch (err: any) {
       return { success: false, error: err.message || "Une erreur est survenue" };

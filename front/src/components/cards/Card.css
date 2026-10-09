@@ -5,3 +5,42 @@
   box-shadow: 4px 4px 0 var(--color-border-card-primary);
   padding: var(--spacing-md);
 }
+ 
+/* --- Version interactive : même comportement que .onboardingSiteCard--interactive ---
+   Sélecteurs doublés (.card.card--...) pour passer devant les règles de home.css
+   comme .card_site_container-display, quel que soit l'ordre de chargement des CSS. */
+ 
+.card.card--interactive,
+.card.card--selected {
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+ 
+.card.card--interactive {
+  cursor: pointer;
+}
+ 
+.card.card--interactive:hover,
+.card.card--interactive:active,
+.card.card--interactive:focus-within {
+  filter: none;
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary);
+}
+ 
+/* Sélectionnée : placée après le hover et plus spécifique, la bordure primary reste visible au survol */
+.card.card--selected,
+.card.card--interactive.card--selected,
+.card.card--interactive.card--selected:hover,
+.card.card--interactive.card--selected:focus-within {
+  filter: none;
+  transform: translate(-3px, -3px);
+  border-color: var(--color-primary);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary), inset 0 0 0 1px var(--color-primary);
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .card.card--interactive,
+  .card.card--selected {
+    transition: none;
+  }
+}

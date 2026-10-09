@@ -30,22 +30,24 @@ export default function CustomTimeSlotInput({
         />
       </div>
 
-      {/* Heure de début */}
+      {/* Heure de début (bloquée sur les heures pleines via step="3600") */}
       <div className="timeslot-field">
         <label className="timeslot-label typo-body">Arrivée</label>
         <input
           type="time"
+          step="3600"
           value={startTime}
           onChange={(e) => onStartTimeChange(e.target.value)}
           className="timeslot-input"
         />
       </div>
 
-      {/* Heure de fin */}
+      {/* Heure de fin (bloquée sur les heures pleines via step="3600") */}
       <div className="timeslot-field">
         <label className="timeslot-label typo-body">Départ</label>
         <input
           type="time"
+          step="3600"
           value={endTime}
           onChange={(e) => onEndTimeChange(e.target.value)}
           className="timeslot-input"

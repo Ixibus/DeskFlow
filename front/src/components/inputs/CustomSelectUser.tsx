@@ -1,9 +1,9 @@
 import "./customSelectUser.css";
 
-// Interface minimale requise pour n'importe quel item
 interface BaseOption {
-  id: string | number;
-  [key: string]: any; // Permet d'accepter d'autres propriétés (prenom, nom, name, etc.)
+  id?: string | number;
+  id_utilisateur?: string | number; // 👈 On accepte aussi l'UUID Supabase
+  [key: string]: any;
 }
 
 interface CustomSelectUserProps<T extends BaseOption> {
@@ -12,7 +12,7 @@ interface CustomSelectUserProps<T extends BaseOption> {
   selectedValue: string | number;
   onChange: (val: string) => void;
   placeholder?: string;
-  renderOption: (item: T) => string; // Fonction pour formater l'affichage de l'option
+  renderOption: (item: T) => string;
 }
 
 export default function CustomSelectUser<T extends BaseOption>({
@@ -35,11 +35,15 @@ export default function CustomSelectUser<T extends BaseOption>({
           <option value="" disabled>
             {placeholder}
           </option>
-          {items.map((item) => (
-            <option key={item.id} value={item.id}>
-              {renderOption(item)}
-            </option>
-          ))}
+          {items.map((item) => {
+            // Récupère l'ID qu'il s'appelle "id" ou "id_utilisateur"
+            const itemId = item.id_utilisateur ?? item.id;
+            return (
+              <option key={itemId} value={itemId}>
+                {renderOption(item)}
+              </option>
+            );
+          })}
         </select>
       </div>
     </div>

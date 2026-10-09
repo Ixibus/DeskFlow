@@ -76,7 +76,7 @@ export const useOnboardingStore = create<OnboardingState>()(
           selectedFormulaId: null,
         }),
 
-      finalizeOnboarding: async () => {
+finalizeOnboarding: async () => {
         const state = get();
 
         if (!state.email || !state.password || !state.login) {
@@ -121,32 +121,30 @@ export const useOnboardingStore = create<OnboardingState>()(
 
         const userId = authData.user.id;
 
-        // Utilisation de upsert pour la table utilisateurs
+        // Petite pause de sécurité pour laisser le trigger auth se terminer proprement
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // On met à jour (update) le profil utilisateur au lieu d'un upsert agressif
         const { error: userTableError } = await supabase
           .from("utilisateurs")
-          .upsert(
-            [
-              {
-                id_utilisateur: userId,
-                login: state.login,
-                mail: state.email,
-                role: "Membre",
-                quota: quotaValue,
-              },
-            ],
-            { onConflict: "id_utilisateur" },
-          );
+          .update({
+            login: state.login,
+            mail: state.email,
+            role: "Membre",
+            quota: quotaValue,
+          })
+          .eq("id_utilisateur", userId);
 
         if (userTableError) {
           return {
             success: false,
             error:
-              "Erreur lors de la création du profil utilisateur : " +
+              "Erreur lors de la mise à jour du profil utilisateur : " +
               userTableError.message,
           };
         }
 
-        // Utilisation de upsert pour la table utilisateurs_sites avec la contrainte unique sur fk_utilisateurs
+        // Associer le site dans utilisateurs_sites
         const { error: siteError } = await supabase
           .from("utilisateurs_sites")
           .upsert(

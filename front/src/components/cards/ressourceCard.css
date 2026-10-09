@@ -1,0 +1,31 @@
+/* RessourceCard : même animation / sélection / focus que .onboardingSiteCard--interactive
+   Sélecteurs doublés (.card.ressourceCard) pour passer devant .card et home.css */
+
+.card.ressourceCard {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+/* Survol, clic et focus clavier (quand le bouton "réserver" a le focus) */
+.card.ressourceCard:hover,
+.card.ressourceCard:active,
+.card.ressourceCard:focus-within {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary);
+}
+
+/* Sélectionnée : la bordure primary reste visible même au survol */
+.card.ressourceCard.ressourceCard--selected,
+.card.ressourceCard.ressourceCard--selected:hover,
+.card.ressourceCard.ressourceCard--selected:active,
+.card.ressourceCard.ressourceCard--selected:focus-within {
+  transform: translate(-3px, -3px);
+  border-color: var(--color-primary);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary), inset 0 0 0 1px var(--color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.ressourceCard {
+    transition: none;
+  }
+}

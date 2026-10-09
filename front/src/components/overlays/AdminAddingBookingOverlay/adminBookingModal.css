@@ -1,0 +1,117 @@
+/* Modale de réservation : même style que ForgotPasswordOverlay */
+
+.booking-modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;          /* marge sur mobile pour que la modale ne colle pas aux bords */
+  box-sizing: border-box;
+}
+
+.booking-modal_container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  /* Le contenu est plus long que celui du mot de passe oublié : on scrolle dans la modale */
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
+
+.booking-modal_title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #0f172a;
+}
+
+.booking-modal_actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Erreur : même style que .forgot-modal_error */
+.booking-modal_error {
+  color: crimson;
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+/* Liste des ressources d'un site : défilement vertical, une sous l'autre */
+.booking-modal_ressource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 40vh;
+  overflow-y: auto;
+  /* Assez de place pour que la carte soulevée (-3px) et son ombre (7px) ne soient pas coupées */
+  padding: 6px 10px 10px 6px;
+  margin-bottom: 15px;
+}
+
+/* Le wrapper ne gère que le clic et le clavier : le style est porté par la carte */
+.booking-modal_ressource-item {
+  outline: none;
+}
+
+/* --- Carte de ressource dans la modale : même effet que .onboardingSiteCard--interactive ---
+   Sélecteurs doublés (.card.bookingRessourceCard) pour passer devant .card et les autres CSS */
+
+.card.bookingRessourceCard {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+/* Survol, clic, et focus clavier (Tab sur la ressource) */
+.card.bookingRessourceCard:hover,
+.card.bookingRessourceCard:active,
+.booking-modal_ressource-item:focus-visible > .card.bookingRessourceCard {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary);
+}
+
+/* Sélectionnée : la bordure primary reste visible même au survol */
+.card.bookingRessourceCard.bookingRessourceCard--selected,
+.card.bookingRessourceCard.bookingRessourceCard--selected:hover,
+.card.bookingRessourceCard.bookingRessourceCard--selected:active,
+.booking-modal_ressource-item:focus-visible > .card.bookingRessourceCard.bookingRessourceCard--selected {
+  transform: translate(-3px, -3px);
+  border-color: var(--color-primary);
+  box-shadow: 7px 7px 0 var(--color-border-card-primary), inset 0 0 0 1px var(--color-primary);
+}
+
+/* Ressource complète : atténuée, non cliquable, pas d'effet */
+.card.bookingRessourceCard.bookingRessourceCard--full,
+.card.bookingRessourceCard.bookingRessourceCard--full:hover,
+.card.bookingRessourceCard.bookingRessourceCard--full:active {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 4px 4px 0 var(--color-border-card-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.bookingRessourceCard {
+    transition: none;
+  }
+}
+
+/* Mobile : padding réduit pour laisser de la place aux champs */
+@media (max-width: 480px) {
+  .booking-modal_container {
+    padding: 20px;
+  }
+}

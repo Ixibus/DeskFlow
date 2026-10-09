@@ -1,4 +1,4 @@
-import "./onboardingFormulaCard.css"; // (ou ton fichier de style de carte formule)
+import "./onboardingFormulaCard.css";
 
 type OnboardingFormulaCardProps = {
   children: React.ReactNode;

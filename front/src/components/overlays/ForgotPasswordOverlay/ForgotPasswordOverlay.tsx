@@ -31,7 +31,6 @@ export function ForgotPasswordOverlay({ isOpen, onClose }: ForgotPasswordOverlay
     setIsSubmittingForgot(true);
 
     try {
-      // 1. On récupère l'e-mail lié au login dans la table "utilisateurs"
       const { data: userData, error: userError } = await supabase
         .from("utilisateurs")
         .select("mail")
@@ -44,7 +43,6 @@ export function ForgotPasswordOverlay({ isOpen, onClose }: ForgotPasswordOverlay
         return;
       }
 
-      // 2. On demande à Supabase d'envoyer l'e-mail de réinitialisation
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(userData.mail, {
         redirectTo: `${window.location.origin}/updatePassword`,
       });

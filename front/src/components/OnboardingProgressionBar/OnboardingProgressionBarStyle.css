@@ -13,7 +13,6 @@
   width: 70%;
 }
 
-/* Conteneur d'une étape (Chiffre + Texte en colonne) */
 .stepContainer {
   display: flex;
   flex-direction: column;
@@ -21,7 +20,6 @@
   position: relative;
 }
 
-/* Cercles des étapes */
 .stepNumberContainer {
   width: 40px;
   height: 40px;
@@ -33,23 +31,20 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  margin: 0; /* Évite les marges par défaut des paragraphes */
+  margin: 0;
 
-  /* Animation du fond et de la couleur */
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Texte sous l'étape */
 .stepText {
   position: absolute;
-  top: 48px; /* Place le texte juste en dessous du cercle de 40px + marge */
+  top: 48px;
   white-space: nowrap;
   font-size: 0.85rem;
-  color: var(--color-bg-inactive); /* Couleur par défaut (inactif) */
+  color: var(--color-bg-inactive);
   transition: color 0.3s ease;
 }
 
-/* État actif : Le cercle et le texte changent de couleur en même temps */
 .stepContainer.is-active .stepNumberContainer {
   background-color: var(--color-bg-button2);
   border-color: var(--color-bg-button2);
@@ -57,21 +52,18 @@
 }
 
 .stepContainer.is-active .stepText {
-  color: var(--color-bg-button2); /* Change la couleur du texte en même temps que l'étape active */
+  color: var(--color-bg-button2);
   font-weight: 600;
 }
 
-/* Barre de liaison (Segment) */
 .segment {
   flex: 1;
   height: 4px;
   background-color: var(--color-bg-inactive);
   position: relative;
   overflow: hidden;
-  /* margin-bottom: 20px; Aligne le segment avec le centre des cercles si le texte décale */
 }
 
-/* Effet de remplissage de gauche à droite */
 .segment::before {
   content: "";
   position: absolute;

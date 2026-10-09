@@ -9,7 +9,6 @@ interface OnboardingState {
   password: string;
   confirmPassword: string;
 
-  // Stockage de l'ID et des détails du site pour l'affichage récapitulatif
   selectedSiteId: number | null;
   selectedSiteName: string | null;
   selectedSiteAddress: string | null;
@@ -17,7 +16,6 @@ interface OnboardingState {
 
   selectedFormulaId: string | null;
 
-  // Actions
   setActiveStep: (step: number) => void;
   setSelectedSite: (
     site: {
@@ -50,7 +48,6 @@ export const useOnboardingStore = create<OnboardingState>()(
 
       setActiveStep: (step) => set({ activeStep: step }),
 
-      // Nouvelle action pour enregistrer le site complet d'un coup
       setSelectedSite: (site) =>
         set({
           selectedSiteId: site ? site.id_site : null,
@@ -121,10 +118,8 @@ finalizeOnboarding: async () => {
 
         const userId = authData.user.id;
 
-        // Petite pause de sécurité pour laisser le trigger auth se terminer proprement
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // On met à jour (update) le profil utilisateur au lieu d'un upsert agressif
         const { error: userTableError } = await supabase
           .from("utilisateurs")
           .update({
@@ -144,7 +139,6 @@ finalizeOnboarding: async () => {
           };
         }
 
-        // Associer le site dans utilisateurs_sites
         const { error: siteError } = await supabase
           .from("utilisateurs_sites")
           .upsert(

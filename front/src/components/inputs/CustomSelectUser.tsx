@@ -2,7 +2,7 @@ import "./customSelectUser.css";
 
 interface BaseOption {
   id?: string | number;
-  id_utilisateur?: string | number; // 👈 On accepte aussi l'UUID Supabase
+  id_utilisateur?: string | number;
   [key: string]: any;
 }
 
@@ -36,7 +36,6 @@ export default function CustomSelectUser<T extends BaseOption>({
             {placeholder}
           </option>
           {items.map((item) => {
-            // Récupère l'ID qu'il s'appelle "id" ou "id_utilisateur"
             const itemId = item.id_utilisateur ?? item.id;
             return (
               <option key={itemId} value={itemId}>

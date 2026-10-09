@@ -1,11 +1,9 @@
 import { Button } from "@/components/buttons/Buttons";
 import "./reservationPage.css";
 import { Card } from "@/components/cards/Card";
-import { OverlayBackground } from "../../components/overlays/OverlayBackground/OverlayBackground";
-import CustomRangeInput from "@/components/inputs/CustomRangeInput";
 import { useState } from "react";
-import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
 import CustomSelectUser from "@/components/inputs/CustomSelectUser";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function ReservationPage(): React.ReactNode {
   const [places, setPlaces] = useState(1);

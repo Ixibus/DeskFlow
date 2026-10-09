@@ -8,7 +8,6 @@
   transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-/* --- Version Interactive (grisée par défaut, se colore au survol/sélection) --- */
 .onboardingFormulaCard--interactive {
   cursor: pointer;
   filter: grayscale(100%) opacity(0.7);

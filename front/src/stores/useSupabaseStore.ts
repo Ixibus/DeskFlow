@@ -35,8 +35,8 @@ interface SupabaseStore {
   currentUser: UserProfile | null;
   currentSite: Site | null;
   sites: Site[];
-  ressources: Ressource[];      // ressources d'UN site (membre / gestionnaire / site choisi par l'admin)
-  allRessources: Ressource[];   // ressources de TOUT le réseau (admin)
+  ressources: Ressource[];
+  allRessources: Ressource[];
   users: UserProfile[];
   fetchUsers: () => Promise<void>;
   bookRessource: (ressourceId: number, userId: string, date: string, startTime: string, endTime: string, places: number) => Promise<{ success: boolean; error?: string }>;
@@ -82,7 +82,6 @@ export const useSupabaseStore = create<SupabaseStore>((set, get) => ({
       }
  
       set({ currentUser: userData });
-      // Charge aussi le site rattaché (currentSite) juste après la connexion
       await get().fetchUserSession();
       set({ loading: false });
       return { success: true };
@@ -129,7 +128,6 @@ export const useSupabaseStore = create<SupabaseStore>((set, get) => ({
     if (data) set({ ressources: data });
   },
  
-  // Toutes les ressources du réseau (vue admin). La RLS doit autoriser ce SELECT uniquement pour l'Admin.
   fetchAllRessources: async () => {
     const { data } = await supabase
       .from('ressources')
@@ -138,7 +136,6 @@ export const useSupabaseStore = create<SupabaseStore>((set, get) => ({
     if (data) set({ allRessources: data });
   },
  
-  // Récupérer tous les utilisateurs (pour le select admin)
   fetchUsers: async () => {
     const { data, error } = await supabase.from('utilisateurs').select('*');
     if (!error && data) {
@@ -146,7 +143,6 @@ export const useSupabaseStore = create<SupabaseStore>((set, get) => ({
     }
   },
  
-  // Action de réservation via la RPC Supabase
 bookRessource: async (ressourceId, userId, date, startTime, endTime, places) => {
     try {
       const p_heure_debut = new Date(`${date}T${startTime}:00`).toISOString();
@@ -157,7 +153,7 @@ bookRessource: async (ressourceId, userId, date, startTime, endTime, places) => 
         p_heure_debut,
         p_heure_fin,
         p_places: places,
-        p_id_utilisateur: userId, // 👈 Transmet l'ID du membre choisi par l'admin (ou l'utilisateur courant)
+        p_id_utilisateur: userId,
       });
 
       if (error) {

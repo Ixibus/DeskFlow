@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { supabase } from "@/lib/supabaseClient";
 import "./navBar.css";
 
@@ -11,7 +11,6 @@ export default function Navbar() {
 
   async function logoutHandler() {
     try {
-      // 1. Déconnexion via l'API Supabase Auth
       const { error } = await supabase.auth.signOut();
 
       if (error) {
@@ -22,26 +21,14 @@ export default function Navbar() {
         return;
       }
 
-      // 2. Effacement complet du localStorage (et nettoyage de sécurité)
       localStorage.clear();
 
       console.log("déconnexion réussie + token/localStorage effacé");
 
-      // 3. Redirection vers la page de connexion (ajusté sur /signin selon ton routeur)
       navigate("/signin", { replace: true });
     } catch (error) {
       console.error("Erreur inattendue lors de la déconnexion :", error);
     }
-  }
-
-  // Exemple dans un composant de navigation ou de Navbar
-  async function handlePublicNavigation(publicPath: string) {
-    // Optionnel : déconnecter proprement de Supabase si on quitte l'espace sécurisé
-    await supabase.auth.signOut();
-    localStorage.clear();
-
-    // Rediriger vers la page non protégée
-    navigate(publicPath);
   }
 
   return (

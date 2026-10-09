@@ -3,7 +3,6 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Toast } from "@/components/toast/Toast";
 import "./connexionLayout.css";
 
-// import { Logout } from "../icons/Logout";
 
 export function ConnexionLayout(): React.ReactNode {
 
@@ -15,7 +14,6 @@ export function ConnexionLayout(): React.ReactNode {
           <NavLink to="/" className="logoutIconArrowAnimation">
             <span className="firstLayout_text">retour</span>
             <span className="firstLayout_icon">
-              {/* <Logout /> */}
             </span>
           </NavLink>
       </nav>

@@ -24,7 +24,6 @@
   box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
 }
 
-/* --- Textarea : pour descriptions, plus grand --- */
 .input--textarea {
   min-height: 150px;
   padding: 12px 14px;
@@ -43,7 +42,6 @@
   box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
 }
 
-/* --- Search bar : fin et long avec icône --- */
 .input__search-wrapper {
   position: relative;
   display: flex;
@@ -80,7 +78,6 @@
   box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.15);
 }
 
-/* --- État d'erreur --- */
 .input--error {
   border-color: var(--color-error);
 }

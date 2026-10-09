@@ -39,20 +39,17 @@ export default function SiteChoiceOnboardingPage({
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Si l'overlay est actif (en mode modale)
     if (isModal) {
-      // Bloque le scroll de la page en arrière-plan
       document.body.style.overflow = "hidden";
     }
 
-    // Fonction de nettoyage (cleanup) qui s'exécute quand l'overlay se ferme ou se démonte
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isModal]);
 
   useEffect(() => {
-    if (isModal) return; // Ignore la redirection de sécurité si on est dans la modale
+    if (isModal) return;
 
     if (!login) {
       navigate("/signup");
@@ -81,9 +78,8 @@ export default function SiteChoiceOnboardingPage({
       return;
     }
 
-    // Comportement conditionnel : Modale vs Parcours normal
     if (isModal && onClose) {
-      onClose(); // Ferme la modale et met à jour la confirmation
+      onClose();
     } else {
       setActiveStep(3);
       navigate("/formulaChoiceOnboarding");
@@ -91,7 +87,6 @@ export default function SiteChoiceOnboardingPage({
   };
   return (
     <div className="site-choice-onboarding_container">
-      {/* Le bouton s'affiche physiquement ici uniquement en mode modale */}
       {isModal && closeButton}
 
       <div className="site-choice-onboarding_title-container">
@@ -107,7 +102,6 @@ export default function SiteChoiceOnboardingPage({
               key={site.id_site}
               interactive={true}
               selected={selectedSiteId === site.id_site}
-              // On envoie l'objet site complet au store pour alimenter le récapitulatif final
               onClick={() => setSelectedSite(site)}
               className="card_onboarding-site-choice_container-display"
             >

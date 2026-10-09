@@ -1,4 +1,3 @@
-// src/components/routes/ProtectedRoute.tsx
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router";
 import { supabase } from "@/lib/supabaseClient";
@@ -23,12 +22,11 @@ export default function ProtectedRoute() {
         return;
       }
 
-      // Session valide, on récupère le profil dans la table 'utilisateurs'
       const { data: userData, error } = await supabase
         .from('utilisateurs')
         .select('role, fk_site')
         .eq('id_utilisateur', session.user.id)
-        .maybeSingle(); // 👈 Évite le 406 si la ligne n'existe pas encore
+        .maybeSingle();
 
       if (error) {
         console.error("Erreur lors de la récupération du profil utilisateur :", error.message);
@@ -41,12 +39,10 @@ export default function ProtectedRoute() {
       }
     };
 
-    // 1. Vérification initiale de la session
     supabase.auth.getSession().then(({ data: { session } }) => {
       checkAuthAndProfile(session);
     });
 
-    // 2. Écoute des changements d'état d'authentification
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       checkAuthAndProfile(session);
     });
@@ -57,7 +53,6 @@ export default function ProtectedRoute() {
     };
   }, []);
 
-  // Pendant qu'on vérifie la session et le profil
   if (isAuthenticated === null) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
@@ -66,6 +61,5 @@ export default function ProtectedRoute() {
     );
   }
 
-  // Si non connecté, redirection ferme vers /signin
   return isAuthenticated ? <Outlet /> : <Navigate to="/signin" replace />;
 }

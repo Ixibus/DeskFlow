@@ -8,10 +8,8 @@
   transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-/* --- Version Interactive (uniquement pour la page de choix de site) --- */
 .onboardingSiteCard--interactive {
   cursor: pointer;
-  /* État inactif : filtre grisé et légèrement atténué */
   filter: grayscale(100%) opacity(0.7);
 }
 
@@ -31,6 +29,5 @@
   filter: none;
   transform: translate(-3px, -3px);
   border-color: var(--color-primary);
-  /* L'effet de bordure à 2px en primary s'active uniquement ici */
   box-shadow: 7px 7px 0 var(--color-border-card-primary), inset 0 0 0 1px var(--color-primary);
 }

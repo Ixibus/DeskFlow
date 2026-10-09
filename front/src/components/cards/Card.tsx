@@ -4,8 +4,8 @@ type CardProps = {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
-  interactive?: boolean; // active hover / active / focus (même effet que OnboardingSiteCard)
-  selected?: boolean;    // état sélectionné (bordure primary + carte soulevée)
+  interactive?: boolean;
+  selected?: boolean;
 };
 
 export function Card({

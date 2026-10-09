@@ -8,12 +8,10 @@ export default function MailConfirmationOnboardingPage(): React.ReactNode {
   const [userEmail, setUserEmail] = useState<string>('');
 
   useEffect(() => {
-    // Récupère l'e-mail stocké de manière sécurisée juste avant le reset
     const savedEmail = sessionStorage.getItem("registeredEmail");
     if (savedEmail) {
       setUserEmail(savedEmail);
     }
-    // Fonction de nettoyage : s'exécute automatiquement lorsque le composant est démonté (quand on quitte la page)
     return () => {
       sessionStorage.removeItem("registeredEmail");
     };

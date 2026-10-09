@@ -13,24 +13,6 @@ export default function MemberAddingBookingOverlay(): React.ReactNode {
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
 
-  const handleReserver = async () => {
-    // Conversion propre pour Supabase (TIMESTAMPTZ)
-    const p_heure_debut = new Date(`${date}T${startTime}:00`).toISOString();
-    const p_heure_fin = new Date(`${date}T${endTime}:00`).toISOString();
-
-    const { data, error } = await supabase.rpc("reserver_ressource", {
-      p_id_ressource: 1, // ID de la ressource choisie
-      p_heure_debut,
-      p_heure_fin,
-      p_places: 1,
-    });
-
-    if (error) {
-      console.error("Erreur:", error.message);
-    } else {
-      console.log("Succès:", data);
-    }
-  };
 
   return (
     <OverlayBackground className="member-adding-booking-overlay_container">

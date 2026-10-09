@@ -1,7 +1,3 @@
-/* Button.css
-   Valeurs extraites de la planche de design fournie.
-   Les var() pointent vers ton theme.css : ajuste les noms si besoin. */
-
 .btn {
   display: inline-flex;
   align-items: center;
@@ -74,7 +70,7 @@
   text-decoration: underline;
 }
 
-/* --- Dark : pill noire (ex: nav "Produits QCQC") --- */
+/* --- Dark --- */
 .btn--dark {
   background-color: var(--color-text-primary, #1a1714);
   color: var(--color-text-inverse, #ffffff);
@@ -86,7 +82,7 @@
   opacity: 0.85;
 }
 
-/* --- Icon : icône seule, sans label, sans fond (ex: œil, logout) --- */
+/* --- Icon : icône seule, sans label, sans fond --- */
 .btn--icon {
   background-color: transparent;
   color: var(--color-text, #1a1714);

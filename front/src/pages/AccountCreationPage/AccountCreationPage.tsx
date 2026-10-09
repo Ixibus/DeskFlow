@@ -149,7 +149,7 @@ export default function AccountCreationPage({
               error={Boolean(emailError)}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if (emailError) setEmailError(""); // Efface l'erreur dès la saisie
+                if (emailError) setEmailError("");
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
@@ -180,7 +180,7 @@ export default function AccountCreationPage({
               error={Boolean(loginError)}
               onChange={(e) => {
                 setLogin(e.target.value);
-                if (loginError) setLoginError(""); // Efface l'erreur dès la saisie
+                if (loginError) setLoginError("");
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
@@ -211,7 +211,7 @@ export default function AccountCreationPage({
               error={Boolean(passwordError)}
               onChange={(e) => {
                 setPassword(e.target.value);
-                if (passwordError) setPasswordError(""); // Efface l'erreur dès la saisie
+                if (passwordError) setPasswordError("");
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();
@@ -242,7 +242,7 @@ export default function AccountCreationPage({
               error={Boolean(confirmPasswordError)}
               onChange={(e) => {
                 setConfirmPassword(e.target.value);
-                if (confirmPasswordError) setConfirmPasswordError(""); // Efface l'erreur dès la saisie
+                if (confirmPasswordError) setConfirmPasswordError("");
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handlerSubmit();

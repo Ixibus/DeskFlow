@@ -22,11 +22,9 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    /* On rend la variable transparente à 50% sans utiliser 'opacity' ni 'filter' 
-       pour que les enfants ne héritent PAS de cette transparence */
     background-color: color-mix(in srgb, var(--color-bg-inactive) 50%, transparent);
-        backdrop-filter: blur(5px); /* Applique l'effet de flou à l'arrière-plan */
-    -webkit-backdrop-filter: blur(5px); /* Compatibilité Safari */
+        backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     z-index: 9999;
     display: flex;
     justify-content: center;
@@ -34,7 +32,7 @@
 }
 
 .onboarding-overlay-content {
-    background: #ffffff; /* 100% opaque, n'hérite pas de la transparence du backdrop */
+    background: #ffffff;
     padding: var(--spacing-xl);
     border-radius: var(--border-radius-lg, 12px);
     max-height: 85vh;

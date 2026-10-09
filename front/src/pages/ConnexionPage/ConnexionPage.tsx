@@ -1,4 +1,3 @@
-// src/components/pages/ConnexionPage.tsx
 import { Input } from "@/components/inputs/Inputs";
 import { Button } from "@/components/buttons/Buttons";
 import { useState } from "react";
@@ -8,7 +7,6 @@ import { useToastStore } from "@/stores/toastStore";
 import { useAuthStore } from "@/stores/loginAuthed";
 import { useSupabaseStore } from "@/stores/useSupabaseStore";
 import { ForgotPasswordOverlay } from "@/components/overlays/ForgotPasswordOverlay/ForgotPasswordOverlay";
-import { supabase } from "@/lib/supabaseClient"; // 👈 Import de supabase pour le diagnostic
 
 import "./connexionPage.css";
 import { Toast } from "@/components/toast/Toast";
@@ -20,10 +18,8 @@ export default function ConnexionPage(): React.ReactNode {
   const [loginError, setLoginError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   
-  // État d'ouverture de la modale
   const [isForgotModalOpen, setIsForgotModalOpen] = useState<boolean>(false);
 
-  // État spécifique pour activer uniquement les contours crimson en cas d'échec d'authentification
   const [isAuthError, setIsAuthError] = useState<boolean>(false);
 
   const setLoginStore = useAuthStore((s) => s.setLogin);
@@ -63,10 +59,6 @@ export default function ConnexionPage(): React.ReactNode {
 
     const result = await signInWithLogin(login, password);
     
-    // 🔍 DIAGNOSTIC : On inspecte le résultat et la session active juste après
-    console.log("Résultat de signInWithLogin :", result);
-    const { data: { session } } = await supabase.auth.getSession();
-    console.log("Session active après connexion :", session);
 
     if (!result.success) {
       const authErrorMessage = result.error || "le login ou le mot de passe ne sont pas bon";

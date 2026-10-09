@@ -21,7 +21,7 @@
   color: var(--color-text-inverse);
   cursor: pointer;
   animation: toast-in var(--transition-normal);
-  white-space: pre-line; /* Permet d'interpréter les \n comme des sauts de ligne HTML */
+  white-space: pre-line;
 }
 
 .toast--success {

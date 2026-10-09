@@ -15,15 +15,13 @@ export default function UpdatePasswordPage(): React.ReactNode {
   const [passwordError, setPasswordError] = useState<string>("");
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [isSessionReady, setIsSessionReady] = useState<boolean>(false); // 👈 Sécurité pour bloquer le formulaire si pas de session
+  const [isSessionReady, setIsSessionReady] = useState<boolean>(false);
 
   const showToast = useToastStore((state) => state.showToast);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Vérification de la session au montage du composant
     const checkSession = async () => {
-      // 1. On vérifie si une session existe déjà
       const { data: { session } } = await supabase.auth.getSession();
       
       if (session) {
@@ -31,7 +29,6 @@ export default function UpdatePasswordPage(): React.ReactNode {
         return;
       }
 
-      // 2. Si pas de session immédiate, on écoute le changement d'état (cas du clic sur le lien e-mail)
       const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, currentSession) => {
         if (event === "PASSWORD_RECOVERY" || currentSession) {
           setIsSessionReady(true);
@@ -50,7 +47,6 @@ export default function UpdatePasswordPage(): React.ReactNode {
     setPasswordError("");
     setConfirmPasswordError("");
 
-    // Sécurité supplémentaire : s'assurer que la session est bien établie
     if (!isSessionReady) {
       showToast("Session invalide ou expirée. Veuillez refaire une demande.", "error");
       return;

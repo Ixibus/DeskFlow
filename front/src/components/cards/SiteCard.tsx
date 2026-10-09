@@ -3,7 +3,6 @@ import { Card } from "@/components/cards/Card";
 import type { Site } from "@/stores/useSupabaseStore";
 import "./siteCard.css";
 
-// Associe un site à sa classe d'image existante (fallback sur Le Capitole)
 function getSiteImgClass(nom: string): string {
   const n = nom.toLowerCase();
   if (n.includes("sathonay")) return "card_site_le-sathonay_img";
@@ -22,7 +21,6 @@ export function SiteCard({ site, freePlaces, selected = false, onSelect }: SiteC
   const selectedClass = selected ? " siteCard--selected" : "";
 
   return (
-    // Toute la carte est cliquable ; le clic sur "réserver" remonte jusqu'ici
     <Card
       className={`card_site_container-display siteCard${selectedClass}`}
       onClick={() => onSelect(site)}
@@ -42,9 +40,6 @@ export function SiteCard({ site, freePlaces, selected = false, onSelect }: SiteC
             <p className="card_site_info-container-site-zip-code typo-body">
               {site.zip_code}
             </p>
-            {/* <p className="card_site_info-container-site-available-places typo-body">
-              {freePlaces} place(s) libre(s) total
-            </p> */}
           </div>
           <Button
             children="réserver"

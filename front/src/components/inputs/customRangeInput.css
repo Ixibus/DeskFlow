@@ -21,7 +21,6 @@
   color: var(--color-bg-button2);
 }
 
-/* Style de base de la barre (track) */
 .custom-range-input {
   -webkit-appearance: none;
   width: 100%;

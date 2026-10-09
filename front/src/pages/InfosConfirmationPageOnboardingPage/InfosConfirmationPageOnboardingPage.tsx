@@ -35,7 +35,6 @@ export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
   } = useOnboardingStore();
 
   const navigate = useNavigate();
-// Ajoute un état pour bloquer la redirection de sécurité pendant la soumission
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -43,7 +42,6 @@ export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
   }, [activeStep]);
 
   useEffect(() => {
-    // Si on est en train de valider/quitter, on ignore cette sécurité
     if (isSubmitting) return;
 
     if (!login || !selectedSiteId || !selectedFormulaId) {
@@ -52,14 +50,12 @@ export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
   }, [login, selectedSiteId, selectedFormulaId, navigate, isSubmitting]);
 
   const handleFinalConfirmation = async () => {
-    setIsSubmitting(true); // On verrouille la sécurité
-    console.log("1. Clic sur Valider détecté");
+    setIsSubmitting(true);
     
     const result = await finalizeOnboarding();
-    console.log("2. Résultat de finalizeOnboarding :", result);
 
     if (!result.success) {
-      setIsSubmitting(false); // On déverrouille en cas d'erreur
+      setIsSubmitting(false);
       showToast(
         result.error || "Une erreur est survenue lors de la validation.",
         "error",
@@ -71,10 +67,8 @@ export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
       sessionStorage.setItem("registeredEmail", email);
     }
 
-    console.log("4. Succès ! Appel de resetOnboarding...");
     resetOnboarding();
 
-    console.log("5. Tentative de navigation vers /mailConfirmationOnboarding...");
     navigate("/mailConfirmationOnboarding");
   };
 
@@ -183,7 +177,6 @@ export default function InfosConfirmationPageOnboardingPage(): React.ReactNode {
         Valider
       </Button>
 
-      {/* --- OVERLAYS MODAUX DE MODIFICATION --- */}
       {editingSection !== null && (
         <div className="onboarding-overlay-backdrop">
           <div className="onboarding-overlay-content">

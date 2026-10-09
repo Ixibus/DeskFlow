@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Badge } from "@/components/badge/Badge";
 import { Button } from "@/components/buttons/Buttons";
 import { OnboardingSiteCard } from "@/components/cards/OnboardingSiteCard";
 import { OnboardingFormulaCard } from "@/components/cards/OnboardingFormulaCard";
@@ -9,13 +8,12 @@ import { OnboardingFormulaConfirmationCard } from "@/components/cards/Onboarding
 import { Card } from "@/components/cards/Card";
 import { Input } from "@/components/inputs/Inputs";
 import OnboardingProgressionBar from "@/components/onboardingProgressionBar/OnboardingProgressionBar";
-import { Link } from "react-router";
 import CustomTimeSlotInput from "@/components/inputs/CustomTimeSlotInput";
-// import { supabase } from "@/lib/supabaseClient";
 
 import "./designSystemView.css";
 import CustomRangeInput from "@/components/inputs/CustomRangeInput";
 import CustomSelectUser from "@/components/inputs/CustomSelectUser";
+import { supabase } from "@/lib/supabaseClient";
 
 const SearchIcon = () => <span>🔍</span>;
 

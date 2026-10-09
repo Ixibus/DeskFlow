@@ -23,8 +23,6 @@ export default function FormulaChoiceOnboardingPage({
   const showToast = useToastStore((state) => state.showToast);
 
   const {
-    login,
-    selectedSiteId,
     selectedFormulaId,
     setSelectedFormulaId,
     setActiveStep,
@@ -32,9 +30,9 @@ export default function FormulaChoiceOnboardingPage({
   const navigate = useNavigate();
 
 useEffect(() => {
-    if (isModal) return; // Ignore en mode modale
+    if (isModal) return;
 
-    // On se contente de mettre à jour l'étape active à 3, sans bloquer le retour arrière
+
     setActiveStep(3);
   }, [setActiveStep, isModal]);
 
@@ -44,9 +42,8 @@ useEffect(() => {
       return;
     }
 
-    // Comportement conditionnel : Modale vs Parcours normal
     if (isModal && onClose) {
-      onClose(); // Ferme la modale et revient sur la confirmation
+      onClose();
     } else {
       setActiveStep(4);
       navigate("/infosConfirmationPageOnboarding");
@@ -55,7 +52,6 @@ useEffect(() => {
 
   return (
     <div className="formula-choice-onboarding_container">
-      {/* Le bouton s'affiche physiquement ici uniquement en mode modale */}
 
       {isModal && closeButton}
       <div className="formula-choice-onboarding_title-container">

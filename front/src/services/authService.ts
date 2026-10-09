@@ -19,7 +19,6 @@ export const authService = {
           site_id: siteId,
           formula_id: formulaId,
         },
-        // URL de redirection après clic sur le lien dans le mail
         emailRedirectTo: `${window.location.origin}/login`, 
       },
     });

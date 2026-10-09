@@ -36,7 +36,6 @@
   box-sizing: border-box;
 }
 
-/* Effet focus avec ta couleur active */
 .timeslot-input:focus {
   border-color: var(--color-bg-button2);
 }

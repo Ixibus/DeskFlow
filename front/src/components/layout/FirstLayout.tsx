@@ -4,7 +4,6 @@ import { Toast } from "@/components/toast/Toast";
 import "./firstLayout.css";
 import OnboardingProgressionBar from "../onboardingProgressionBar/OnboardingProgressionBar";
 
-// import { Logout } from "../icons/Logout";
 
 export function FirstLayout(): React.ReactNode {
 
@@ -16,7 +15,6 @@ export function FirstLayout(): React.ReactNode {
           <NavLink to="/" className="logoutIconArrowAnimation">
             <span className="firstLayout_text">retour</span>
             <span className="firstLayout_icon">
-              {/* <Logout /> */}
             </span>
           </NavLink>
       </nav>

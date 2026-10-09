@@ -8,12 +8,12 @@ import { BackgroundSet1 } from "@/components/backgroundSet/BackgroundSet1/Backgr
 import { useSupabaseStore } from "@/stores/useSupabaseStore";
 import type { Ressource, Site } from "@/stores/useSupabaseStore";
 import "./adminAddingBookingOverlay.css";
-import "./adminBookingModal.css"; // ⚠️ indispensable : style de la modale + de la liste
+import "./adminBookingModal.css";
 import { useToastStore } from "@/stores/toastStore";
 
 interface AdminAddingBookingOverlayProps {
-  selectedRessource?: Ressource | null; // ouverture depuis une carte ressource
-  selectedSite?: Site | null;          // ouverture depuis une carte site → liste des ressources du site
+  selectedRessource?: Ressource | null;
+  selectedSite?: Site | null;
   onClose: () => void;
 }
 
@@ -32,7 +32,6 @@ export default function AdminAddingBookingOverlay({
     fetchAllRessources,
   } = useSupabaseStore();
 
-  // Seul l'admin choisit le membre ; membre / gestionnaire réservent pour eux-mêmes
   const isAdmin = currentUser?.role === "Admin";
 
   const showToast = useToastStore((state) => state.showToast);
@@ -42,7 +41,6 @@ export default function AdminAddingBookingOverlay({
   const [places, setPlaces] = useState(1);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   
-  // Heures pleines par défaut (09:00 et 17:00)
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
   
@@ -53,7 +51,6 @@ export default function AdminAddingBookingOverlay({
     if (isAdmin) fetchUsers();
   }, [isAdmin]);
 
-  // Mode "site" : on charge les ressources du site cliqué
   useEffect(() => {
     if (selectedSite) fetchRessourcesBySite(selectedSite.id_site);
   }, [selectedSite?.id_site]);
@@ -64,7 +61,6 @@ export default function AdminAddingBookingOverlay({
     [ressources, selectedSite?.id_site],
   );
 
-  // Déterminer l'ID du site cible pour filtrer les membres de ce site
   const targetSiteId = useMemo(() => {
     if (selectedSite) return selectedSite.id_site;
     if (chosenRessource) return chosenRessource.fk_site;
@@ -75,21 +71,17 @@ export default function AdminAddingBookingOverlay({
     console.log("Liste brute des users :", users);
   console.log("Site cible actuel (targetSiteId) :", targetSiteId);
 
-// Filtrer les utilisateurs du site cible en excluant uniquement les Admins et Gestionnaires
   const filteredUsers = useMemo(() => {
-    // Si pas de site cible, on prend tout le monde sauf les admins/gestionnaires
     const baseList = targetSiteId 
       ? users.filter((u) => u.fk_site === targetSiteId) 
       : users;
 
-    // On exclut les rôles administratifs/gestion (insensible à la casse)
     return baseList.filter((u) => {
       const role = (u.role || "").toLowerCase();
       return role !== "admin" && role !== "gestionnaire" && role !== "manager";
     });
   }, [users, targetSiteId]);
 
-  // Fermeture avec Échap + blocage du scroll de la page derrière la modale
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -112,7 +104,6 @@ export default function AdminAddingBookingOverlay({
     setErrorMessage("");
   };
 
-  // Fonction utilitaire pour forcer l'heure pleine (ex: "09:30" -> "09:00")
   const forceFullHour = (timeStr: string) => {
     if (!timeStr) return "09:00";
     const [hours] = timeStr.split(":");
@@ -132,7 +123,6 @@ export default function AdminAddingBookingOverlay({
     }
 
     setSubmitting(true);
-    // On s'assure d'envoyer des heures pleines strictes (ex: 09:00, 17:00)
     const result = await bookRessource(
       chosenRessource.id_ressource,
       userId,
@@ -295,7 +285,6 @@ export default function AdminAddingBookingOverlay({
                 startTime={startTime}
                 endTime={endTime}
                 onDateChange={setDate}
-                // On force l'heure pleine au changement pour s'assurer qu'aucune minute ne passe
                 onStartTimeChange={(val) => setStartTime(forceFullHour(val))}
                 onEndTimeChange={(val) => setEndTime(forceFullHour(val))}
               />

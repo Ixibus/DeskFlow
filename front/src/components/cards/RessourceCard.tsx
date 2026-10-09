@@ -5,7 +5,7 @@ import "./ressourceCard.css";
 
 interface RessourceCardProps {
   ressource: Ressource;
-  siteName?: string; // si fourni → variante admin "Ressources du réseau"
+  siteName?: string;
   selected?: boolean;
   onBook: (r: Ressource) => void;
 }
@@ -21,7 +21,6 @@ export function RessourceCard({
   const selectedClass = selected ? " ressourceCard--selected" : "";
 
   return (
-    // Toute la carte est cliquable ; le clic sur "réserver" remonte jusqu'ici
     <Card
       className={`card_site_container-display ressourceCard${selectedClass}`}
       onClick={() => onBook(ressource)}

@@ -14,7 +14,6 @@ import ConnexionPage from "@/pages/ConnexionPage/ConnexionPage";
 import { ConnexionLayout } from "@/components/layout/ConnexionLayout";
 import HomePage from "@/pages/Home";
 import MemberAddingBookingOverlay from "@/components/overlays/MemberAddingBookingOverlay/MemberAddingBookingOverlay";
-import AdminAddingBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
 import ReservationPage from "@/pages/ReservationPage/ReservationPage";
 import MemberAnnulationOverlay from "@/components/overlays/MemberAnnulationOverlay/MemberAnnulationOverlay";
 import UpdatePasswordPage from "@/pages/UpdatePasswordPage/UpdatePasswordPage";
@@ -42,7 +41,6 @@ export function AppRouter() {
           <Route element={<AppLayout />}>
             <Route path="/home" element={<HomePage />} />
             <Route path="/memberBooking" element={<MemberAddingBookingOverlay />} />
-            {/* <Route path="/adminBooking" element={<AdminAddingBookingOverlay />} /> */}
             <Route path="/reservation" element={<ReservationPage />} />
             <Route path="/memberAnnulation" element={<MemberAnnulationOverlay />} />
           </Route>

@@ -5,7 +5,6 @@ import type { Ressource, Site } from "@/stores/useSupabaseStore";
 import { SiteCard } from "@/components/cards/SiteCard";
 import { RessourceCard } from "@/components/cards/RessourceCard";
 import { SiteRessources } from "@/components/ressources/SiteRessources";
-// ⚠️ Adapte ce chemin à l'emplacement réel de ton overlay
 import AdminAddingBookingOverlay from "@/components/overlays/AdminAddingBookingOverlay/AdminAddingBookingOverlay";
 
 function sumPlaces(list: Ressource[]): number {
@@ -25,18 +24,15 @@ export default function HomePage(): React.ReactNode {
     fetchAllRessources,
   } = useSupabaseStore();
 
-  // Ce qui ouvre la modale : soit une ressource précise, soit un site entier
   const [bookingRessource, setBookingRessource] = useState<Ressource | null>(null);
   const [bookingSite, setBookingSite] = useState<Site | null>(null);
 
   const isAdmin = currentUser?.role === "Admin";
 
-  // Restaure la session si on arrive directement sur la page (refresh)
   useEffect(() => {
     if (!currentUser) fetchUserSession();
   }, []);
 
-  // Chargement des données selon le rôle
   useEffect(() => {
     if (!currentUser) return;
     if (currentUser.role === "Admin") {
@@ -47,7 +43,6 @@ export default function HomePage(): React.ReactNode {
     }
   }, [currentUser?.id_utilisateur, currentUser?.role]);
 
-  // Admin : places libres par site + nom du site par id
   const placesBySite = useMemo(() => {
     const map = new Map<number, number>();
     allRessources.forEach((r) =>
@@ -65,7 +60,6 @@ export default function HomePage(): React.ReactNode {
   const totalBureaux = allRessources.filter((r) => r.types === "Bureau").length;
   const totalSalles = allRessources.filter((r) => r.types === "Salle").length;
 
-  // Ressources du réseau triées par site puis par nom
   const ressourcesReseau = useMemo(
     () =>
       [...allRessources].sort(
@@ -76,7 +70,6 @@ export default function HomePage(): React.ReactNode {
     [allRessources, siteNameById],
   );
 
-  // useCallback : évite de ré-abonner l'écouteur Échap de la modale à chaque rendu
   const handleCloseOverlay = useCallback(() => {
     setBookingRessource(null);
     setBookingSite(null);
@@ -132,7 +125,6 @@ export default function HomePage(): React.ReactNode {
         ) : (
           /* --- Affichage Admin --- */
           <>
-            {/* Partie haute : sites + totaux */}
             <h2 className="home_ressources-title typo-h2">Sites</h2>
             <h3 className="admin-home_total-ressource-type_title typo-h3">
               Total des ressources du réseau
@@ -154,7 +146,6 @@ export default function HomePage(): React.ReactNode {
               ))}
             </div>
 
-            {/* Partie basse : toutes les ressources du réseau */}
             <h2 className="home_ressources-title typo-h2">Ressources du réseau</h2>
             <div className="home_total-rooms-ressource_container">
               {ressourcesReseau.length === 0 && (

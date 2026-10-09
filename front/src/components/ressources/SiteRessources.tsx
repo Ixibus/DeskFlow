@@ -1,9 +1,6 @@
 import { RessourceCard } from "@/components/cards/RessourceCard";
 import type { Ressource } from "@/stores/useSupabaseStore";
 
-// Bloc Bureaux / Salles d'un site (Membre / Gestionnaire)
-// Les classes home_* restent définies dans home.css (chargé par HomePage)
-
 interface SiteRessourcesProps {
   ressources: Ressource[];
   selectedId?: number;

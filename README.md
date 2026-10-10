@@ -1,24 +1,33 @@
-# 🚀 DeskFlow - Application de Gestion et de Réservation de Coworking
+# DeskFlow - Application de Gestion et de Réservation de Coworking
 
-DeskFlow est une application web moderne permettant de gérer des espaces de coworking, des sites, des ressources (bureaux, salles de réunion) et des réservations avec une gestion fine des quotas et des rôles utilisateurs.
+DeskFlow est une application web permettant de gérer des espaces de coworking, des sites, des ressources (bureaux, salles de réunion) et des réservations avec une gestion des quotas et des rôles utilisateurs.
 
-## ⚙️ Prérequis
+React | CSS Vanilla | Supabase
 
-Avant de lancer le projet, assure-toi d'avoir installé sur ta machine :
+## Prérequis
+
+Avant de lancer le projet, assurez-vous d'avoir installé :
 
 * **Node.js** (version 18 ou supérieure recommandée)
 
 * **npm** (ou un gestionnaire de paquets équivalent comme `pnpm` ou `yarn`)
 
-* *(Optionnel)* **Supabase CLI** si tu souhaites faire tourner l'instance Supabase en local.
+* *(Optionnel)* **Supabase CLI** pour faire tourner l'instance Supabase en local pour le test de mot de passe oublié ou de confirmation de création de compte.
 
-## 🛠️ Installation et Lancement en Local
+## Branche de démo
+
+   ```
+   `demo`
+   
+   ```
+
+## Installation et Lancement en Local
 
 1. **Cloner le dépôt Git :**
 
    ```
    git clone <URL_DU_REPO>
-   cd DeskFlow
+   cd front
    
    ```
 
@@ -31,16 +40,18 @@ Avant de lancer le projet, assure-toi d'avoir installé sur ta machine :
 
 3. **Configurer les variables d'environnement :**
    Crée un fichier `.env` à la racine du projet.
-   *(Note : Tu peux basculer entre l'instance Supabase locale et l'instance cloud selon ton besoin de test)* :
 
    ```
-   # Pour le développement local :
-   VITE_SUPABASE_URL=http://127.0.0.1:54321
+   # Pour le développement local (Supabase CLI):
+      ######## test mail de confirmation mailpit
+      VITE_SUPABASE_URL=lien _url_supabaseLocal
+      VITE_SUPABASE_ANON_KEY=cle_anon_supabaseLocal
+
    
-   # Ou pour pointer vers l'instance cloud de test :
-   # VITE_SUPABASE_URL=https://qbzoaxspaxgqlpjqsjyb.supabase.co
-   
-   VITE_SUPABASE_ANON_KEY=ta_cle_anon_supabase_ici
+   # Ou pour pointer vers l'instance cloud (Supabase "Saas"):
+      ######## dev SupaBase en Saas
+      VITE_SUPABASE_URL=lien _url_supabase
+      VITE_SUPABASE_ANON_KEY=cle_anon_supabase
    
    ```
 
@@ -51,9 +62,23 @@ Avant de lancer le projet, assure-toi d'avoir installé sur ta machine :
    
    ```
 
-   L'application sera accessible localement sur l'adresse affichée dans ton terminal (généralement `http://localhost:5173`).
+   L'application sera accessible localement sur l'adresse affichée dans le terminal (`http://localhost:5173`).
 
-## 👥 Comptes de Test
+5. **Démarrage setup Supabase CLI**
+   
+   ```
+   # démarrage du serveur Supabase CLI
+   npx supabase start
+
+   # accès interface client base de données de Supabase CLI
+   `http://127.0.0.1:54323`
+
+   # accès interface client boite mail Mailpit
+   `http://127.0.0.1:54324`
+
+   ```
+
+## Comptes de Test
 
 Voici les trois profils types pré-configurés pour tester l'ensemble des fonctionnalités de l'application (Réservations, administration des membres, gestion des sites) :
 
@@ -61,32 +86,50 @@ Voici les trois profils types pré-configurés pour tester l'ensemble des foncti
 
 * **Rôle :** Accès total (gestion globale, supervision des sites, choix des membres pour les réservations, etc.)
 
-* **Email :** `admin.deskflow@yopmail.com`
+* **Login :** `admin`
 
-* **Mot de passe :** `password123`
+* **Email :** `admin@deskflow.com`
 
-### 2. Compte Gestionnaire (`Gestionnaire`)
+* **Mot de passe :** `AdminDeskflow01!!`
 
-* **Rôle :** Gestion d'un site spécifique et des ressources associées.
+### 2. Compte Gestionnaires (`Gestionnaire`)
 
-* **Email :** `gestionnaire.deskflow@yopmail.com`
+* **Rôle :** Gestion d'un site spécifique et des ressources associées (Lyon, Nantes et Toulouse).
 
-* **Mot de passe :** `password123`
+* **Login :** `gestionnaire.sathonay@deskflow.com`, `gestionnaire.royale@deskflow.com` et `gestionnaire.capitole@deskflow.com`
+
+* **Email :** `gestionnaire.sathonay@deskflow.com`, `gestionnaire.royale@deskflow.com` et `gestionnaire.capitole@deskflow.com`
+
+* **Mot de passe :** `GestionnaireDeskflowLyon01!!`, `GestionnaireDeskflowNantes01!!` et `GestionnaireDeskflowToulouse01!!`
 
 ### 3. Compte Membre (`Membre`)
 
 * **Rôle :** Utilisateur classique rattaché à un site, gestion de son quota personnel et réservation de créneaux.
 
-* **Email :** `membre.deskflow@yopmail.com`
+* **Login :** `test01`
 
-* **Mot de passe :** `password123`
+* **Email :** `test01@lemail.com`
 
-## 📂 Structure du Projet
+* **Mot de passe :** `Test01!!`
 
-* `/src/components` : Composants UI réutilisables (Modales, Overlays, Boutons, Inputs)
+## Structure du Projet
 
-* `/src/pages` : Pages principales et tunnels d'onboarding
+* `/src/components` : composants UI réutilisables (Modales, Overlays, Boutons, Inputs)
 
-* `/src/stores` : Gestion d'état global avec Zustand
+* `/src/pages` : pages principales et tunnels d'onboarding
 
-* `/src/lib` : Configuration du client Supabase
+* `/src/stores` : gestion d'état global avec Zustand
+
+* `/src/lib` : configuration du client Supabase
+
+* `/src/views` : Design system
+
+* `/src/utils` : fonctions "Helper"
+
+* `/src/style` : styles réutilisables
+
+* `/src/services` : fonctions "Checker"
+
+* `/src/route` : fichiers de "routing" de l'application
+
+* `/src/assets` : médias (photos et icones)

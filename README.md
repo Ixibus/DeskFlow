@@ -44,13 +44,13 @@ Avant de lancer le projet, assurez-vous d'avoir installé :
    ```
    # Pour le développement local (Supabase CLI):
       ######## test mail de confirmation mailpit
-      VITE_SUPABASE_URL=lien _url_supabaseLocal
+      VITE_SUPABASE_URL=http://127.0.0.1:54321
       VITE_SUPABASE_ANON_KEY=cle_anon_supabaseLocal
 
    
    # Ou pour pointer vers l'instance cloud (Supabase "Saas"):
       ######## dev SupaBase en Saas
-      VITE_SUPABASE_URL=lien _url_supabase
+      VITE_SUPABASE_URL=https://qbzoaxspaxgqlpjqsjyb.supabase.co
       VITE_SUPABASE_ANON_KEY=cle_anon_supabase
    
    ```

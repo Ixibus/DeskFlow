@@ -264,7 +264,7 @@ export default function AccountCreationPage({
           </div>
 
           <Button buttonType="largeType" onClick={handlerSubmit}>
-            Valider
+            confirmer
           </Button>
           <Button
             buttonType="largeType"
